@@ -133,15 +133,11 @@ void GameController::playGame()
             
                 if(extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Right)
                 {
-                    cout << "Move right" << endl;
                     ant_->moveAnt(10,0);
-                    cout << ant_->getAntX() << " " << ant_->getAntY() << endl;
                 }
                 if(extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Left)
                 {
                     ant_->moveAnt(-10,0);
-                    cout << "Move left" << endl;
-                    cout << ant_->getAntX() << " " << ant_->getAntY() << endl;
                 }
             
             //display the window
@@ -150,7 +146,7 @@ void GameController::playGame()
         }//end event monitoring loop
         //cout << "here" << endl;
          //decide on action based on status of game, running or not
-           // if(gameIsRunning_){
+           if(gameIsRunning_){
                 //....           
                 //clear the window
                 appWindow_->clear(sf::Color(75,83,32));
@@ -162,8 +158,8 @@ void GameController::playGame()
                 segment_->drawSegmentOnField(appWindow_);
                 appWindow_->display();
                 //cout << counter++ << endl;;
-                gameIsRunning_ = false;
-            //}
+                //gameIsRunning_ = false;
+            }
             //else{}
     }//main window closed
 }
