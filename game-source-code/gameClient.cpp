@@ -2,11 +2,16 @@
 
 int main()
 {
+
     //create controller object
-    //when a controller object is created, window is opened and a message is displayed on the screen
+    //create a Game Controller object
     GameController controller;
-    //run the game loop via the controller
-    controller.runGameLoop();
+    //command controller to open application's window
+    controller.openApplicationWindow();
+    //command controller to display the splash_screen
+    controller.displaySplashScreen();
+    //command controller to run the game
+    controller.playGame();
     
     //indicate that main terminated successfully
     return 0;

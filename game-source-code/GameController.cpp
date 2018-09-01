@@ -11,25 +11,20 @@ using namespace std;
 
 /*Ran into scope issues and window was only open in the function in which the renderWindow function is called*/
 //window dimensions
-
-const int fieldWidth = 800;
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const int fieldWidth = 800;                                                                                                            
 const int fieldHeight = 600;
 
 auto appWindow = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "Antipede", sf::Style::Close | sf::Style::Resize);
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-//when a GameController object is instantiated...
-GameController::GameController()
+//function of constructor is to initialize the state of its data members
+GameController::GameController() : gameIsRunning_(false), appWindow_(NULL)
 {
-    //Initialize GUI resources
-    //Open application window
-    openApplicationWindow();
-    //display Splashscreen
-    writeSplashMessage();
-    //wait for 'start game command' from user
     //initialize game objects
-    //play game: enter game loop
-    //end game, release memory
+    field_ = new Field();
+    ant_ = new Ant(380,570);
+    segment_ = new Segment(10,10);
 }
 
 void GameController::openApplicationWindow()
@@ -44,7 +39,7 @@ void GameController::openApplicationWindow()
     return;
 }
 
-void GameController::writeSplashMessage()
+void GameController::displaySplashScreen()
 {
     sf::Texture texture;
     if(!texture.loadFromFile("splashGround.jpg"))
@@ -105,9 +100,9 @@ void GameController::writeSplashMessage()
     return;
 }
 
-void GameController::runGameLoop()
+void GameController::playGame()
 {
-    gameIsRunning_ = false;
+    //gameIsRunning_ = false;
     
     sf::Event extern_event;
     
@@ -131,6 +126,12 @@ void GameController::runGameLoop()
                 }
                     //clear the window
                 appWindow_->clear(sf::Color(75,83,32));
+                //Draw Field 
+                field_->drawField(appWindow_);
+                //draw Ant
+                ant_->drawAntOnField(appWindow_);
+                //draw Segment
+                segment_->drawSegmentOnField(appWindow_);
                 appWindow_->display();
             }//end if
             
@@ -140,6 +141,7 @@ void GameController::runGameLoop()
             
             //display the window
             //appWindow_->display();
+            appWindow_->clear();
             
         }//end event monitoring loop
     }//main window closed

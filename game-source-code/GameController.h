@@ -14,19 +14,22 @@ class GameController{
 public:
     GameController();
     //clients of GameController can...
-    //run game loop
-    void runGameLoop();
+    //Open application window
+    void openApplicationWindow();
+    //display the splash screen
+    void displaySplashScreen();
+    //play the game
+    void playGame();
     
 private:
     
-    void openApplicationWindow();
-    void writeSplashMessage();
+    
     //query status of resource initialization
 
     //maintains all the game objects in its memory
-    //Field*   field_;
-    //Ant*     ant_;
-    //Segment* segment_;
+    Field*   field_;
+    Ant*     ant_;
+    Segment* segment_;
     //additional variables
     bool gameIsRunning_; //keeps record of game status
     

@@ -4,7 +4,6 @@
 //Details:  
 
 #include <SFML/Graphics.hpp>
-using namespace std;
 /*The field is the region where the centipede and the ant come head to head*/
 
 class Field{

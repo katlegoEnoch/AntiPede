@@ -4,6 +4,8 @@
 //Details:   
 
 /*A centipede is made up of segments*/
+#include <SFML/Graphics.hpp>
+
 
 class Segment{
 public:
