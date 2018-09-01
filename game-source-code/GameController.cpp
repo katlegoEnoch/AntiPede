@@ -102,6 +102,8 @@ void GameController::displaySplashScreen()
 
 void GameController::playGame()
 {
+    //int counter = 0;
+    
     //gameIsRunning_ = false;
     
     sf::Event extern_event;
@@ -109,6 +111,7 @@ void GameController::playGame()
     //while the window is open
     while(appWindow_->isOpen())
     {
+        
         while(appWindow_->pollEvent(extern_event)){
             //if the triggered event is 'close window' event
             if((extern_event.type == sf::Event::Closed) || (extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Escape))
@@ -118,13 +121,38 @@ void GameController::playGame()
                 //break out of the event monitoring loop,
                 break;
             }//end if
+            
             //if event noted is keyboard event and key pressed is space
             if(extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Space){
                 //set gameRunning flag if it wasn't
                 if(!gameIsRunning_){
                     gameIsRunning_ = true;
                 }
-                    //clear the window
+                
+            }//end if
+            
+                if(extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Right)
+                {
+                    cout << "Move right" << endl;
+                    ant_->moveAnt(10,0);
+                    cout << ant_->getAntX() << " " << ant_->getAntY() << endl;
+                }
+                if(extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Left)
+                {
+                    ant_->moveAnt(-10,0);
+                    cout << "Move left" << endl;
+                    cout << ant_->getAntX() << " " << ant_->getAntY() << endl;
+                }
+            
+            //display the window
+            //appWindow_->display();
+            appWindow_->clear();
+        }//end event monitoring loop
+        //cout << "here" << endl;
+         //decide on action based on status of game, running or not
+           // if(gameIsRunning_){
+                //....           
+                //clear the window
                 appWindow_->clear(sf::Color(75,83,32));
                 //Draw Field 
                 field_->drawField(appWindow_);
@@ -133,16 +161,9 @@ void GameController::playGame()
                 //draw Segment
                 segment_->drawSegmentOnField(appWindow_);
                 appWindow_->display();
-            }//end if
-            
-            //decide on action based on status of game, running or not
-            if(gameIsRunning_){}
-            else{}
-            
-            //display the window
-            //appWindow_->display();
-            appWindow_->clear();
-            
-        }//end event monitoring loop
+                //cout << counter++ << endl;;
+                gameIsRunning_ = false;
+            //}
+            //else{}
     }//main window closed
 }

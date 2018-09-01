@@ -18,3 +18,9 @@ void Ant::drawAntOnField(sf::RenderWindow* window)
     
     window->draw(ant);
 }
+
+void Ant::moveAnt(int deltaX, int deltaY)
+{
+    antX_+= deltaX;
+    antY_ += deltaY;
+}

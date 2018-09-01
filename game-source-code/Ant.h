@@ -14,6 +14,9 @@ public:
     Ant(const int&, const int&);
     //clients of Ant object can...
     void drawAntOnField(sf::RenderWindow*);
+    void moveAnt(int newX, int newY);
+    int  getAntX() const {return antX_;}
+    int  getAntY() const {return antY_;}
     
 private:
     //an ant has a position on the field
