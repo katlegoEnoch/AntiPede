@@ -8,8 +8,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#define fieldWidth  800                                                                                                            
-#define fieldHeight  600
+#define fieldWidth  1000                                                                                                            
+#define fieldHeight 800
 
 #define Military_Green sf::Color(75,83,32)
 

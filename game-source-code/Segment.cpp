@@ -31,3 +31,9 @@ void Segment::drawSegmentOnField(sf::RenderWindow* window)
     //return control to caller
     return;
 }
+
+void Segment::moveSegment(const int& deltaX,const int& deltaY)
+{
+    segmentX_ += deltaX;
+    segmentY_ += deltaY;
+}

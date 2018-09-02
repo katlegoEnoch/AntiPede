@@ -129,11 +129,16 @@ void GameController::playGame()
     //gameIsRunning_ = false;
     
     sf::Event extern_event;
+    auto counter = 0;
     
     //while the window is open
     while(appWindow_->isOpen())
     {
-        
+        //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
+        if(gameIsRunning_){
+            segment_->moveSegment(8,0);
+            cout << counter++ << endl;
+        }
         while(appWindow_->pollEvent(extern_event)){
             //if the triggered event is 'close window' event
             if((extern_event.type == sf::Event::Closed) || (extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Escape))

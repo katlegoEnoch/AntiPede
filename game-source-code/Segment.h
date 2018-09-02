@@ -24,6 +24,8 @@ public:
     //clients of Segment can...
     void drawSegmentOnField(sf::RenderWindow* );
     tuple<int,int> getSegmentCoords() const {return {segmentX_,segmentY_};}
+    //move Segment by specified amount
+    void moveSegment(const int&, const int&);
     
 private:
     //has a coordinate on the field
