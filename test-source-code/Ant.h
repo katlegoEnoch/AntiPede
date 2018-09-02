@@ -26,7 +26,7 @@ public:
     //clients of Ant object can...
     void drawAntOnField(sf::RenderWindow*);
     //move ant by x units, left or right, and y units, up or down
-    void moveAnt(int, int);
+    void moveAnt(const int&, const int&);
     //receive coordinates of ant on the field
     tuple<int,int> getAntCoords() const {return {antX_,antY_};}
     //get size of ant

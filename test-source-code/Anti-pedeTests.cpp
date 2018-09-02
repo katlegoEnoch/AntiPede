@@ -60,6 +60,66 @@ TEST_CASE("Reasonably sized ant can be constructed successfully")
     CHECK(test_ant.getAntSize() == 10.f);
 }
 
+/////Ant movement tests//////////////////////////////////////
+TEST_CASE("Ant can be moved by one unit to the right if not at right edge")
+{
+    //create an ant object at random position on the field
+    auto ant = Ant{fieldWidth/2,fieldHeight-30,10.f};
+    //get ant coordinates before movement
+    auto[antXB, antYB] = ant.getAntCoords();
+    //move ant by one unit to the right
+    ant.moveAnt(1,0);
+    //get ant coords after operation
+    auto[antXA,antYA] = ant.getAntCoords();
+    //ant should have moved to right by one unit
+    CHECK(antXA == antXB+1);
+    //ant should be at same y position 
+    CHECK(antYA== antYB);
+}
+TEST_CASE("Ant can be moved by one unit to the left")
+{
+    //create an ant object at random position on the field
+    auto ant = Ant{fieldWidth/2,fieldHeight-30,10.f};
+    //get ant coordinates before movement
+    auto[antXB, antYB] = ant.getAntCoords();
+    //move ant by one unit to the left
+    ant.moveAnt(-1,0);
+    //get ant coords after operation
+    auto[antXA,antYA] = ant.getAntCoords();
+    //ant should have moved to left by one unit
+    CHECK(antXA == antXB-1);
+    //ant should be at same y position 
+    CHECK(antYA== antYB);
+}
+TEST_CASE("Ant cannot move beyond right boundary of field")
+{
+    //position an ant on the right boundary on the bottom row
+    auto ant = Ant{fieldWidth-10,fieldHeight-30,10.f};
+    //get coordinates of ant before movement operation
+    auto[antXB,antYB] = ant.getAntCoords();
+    //attempt to move the ant by 1 unit to the right
+    ant.moveAnt(1,0);
+    //get ant coordinates after move operation
+    auto[antXA,antYA] = ant.getAntCoords();
+    //ant coordinates should remain the same before and after operation i.e. ant cannot move beyond right edge
+    CHECK(antXB == antXA);
+    CHECK(antYB == antYA);
+}
+TEST_CASE("And cannot move beyond the left boundary of the field")
+{
+    //place an ant on the bottom row's left edge
+    auto ant = Ant{10,fieldHeight-30,10.f};
+    //get ant's coordinates before movement
+    auto[antXB,antYB] = ant.getAntCoords();
+    //attempt to move ant by one unit to the left
+    ant.moveAnt(-1,0);
+    //get ant coords after operation
+    auto[antXA,antYA] = ant.getAntCoords();
+    //ant's coordinates should be the same before and after attempted move operation
+    CHECK(antXA == antXB);
+    CHECK(antYA == antYB);
+}
+
 ///////////////////////////////////SEGMENT-INITIALIZATION-TESTS////////////////////////////////////////////////////
 TEST_CASE("Segment With invalid field coordinates cannot be constructed")
 {
@@ -81,6 +141,101 @@ TEST_CASE("Segment with large radius cannot be constructed")
     CHECK_THROWS_AS(Segment(fieldWidth,fieldHeight,invalid_segment_radius),SegmentRadiusBeyondFieldBounds);
 }
 
-//////////////////////////////////////////////////////////////
+////////////////////////////////////////SEGMENT MOVEMENT TESTS/////////////////////////////////////
+TEST_CASE("Segment can be moved by one unit to right if not positioned on right edge")
+{
+    //place segment at any location but right edge
+    auto segment = Segment{30,30,10.f};
+    //get coordinates of segment before movement
+    auto[segXB,segYB] = segment.getSegmentCoords();
+    //move segment by one unit to the right
+    segment.moveSegment(1,0);
+    //get coordinats of segment after movement operation
+    auto[segXA,segYA] = segment.getSegmentCoords();
+    //x should have changed by one unit
+    CHECK(segXA == segXB+1);
+    //y should be the same
+    CHECK(segYA == segYB);
+}
+
+TEST_CASE("Segment can be moved by one unit to left if not positioned on left edge")
+{
+    //place segment at any location but right edge
+    auto segment = Segment{50,50,10.f};
+    //get coordinates of segment before movement
+    auto[segXB,segYB] = segment.getSegmentCoords();
+    //move segment by one unit to the right
+    segment.moveSegment(-1,0);
+    //get coordinats of segment after movement operation
+    auto[segXA,segYA] = segment.getSegmentCoords();
+    //x should have changed by one unit
+    CHECK(segXA == segXB-1);
+    //y should be the same
+    CHECK(segYA == segYB);
+
+    
+}
+
+TEST_CASE("Segment cannot move beyond right edge")
+{
+    //position a segment on the top row right edge
+    auto segment = Segment{fieldWidth-10,30, 10.f};
+    //get segment coordinates before movement operation
+    auto[segXB,segYB] = segment.getSegmentCoords();
+    //attempt to move segment by one unit beyond right edge
+    segment.moveSegment(1,0);
+    //get coordinates of segment after movement
+    auto[segXA,segYA] = segment.getSegmentCoords();
+    //x coordinate should not have changed
+    CHECK(segXA == segXB);
+    CHECK_FALSE(segYA == segYB);
+}
+
+TEST_CASE("Segment cannot move beyond left edge")
+{
+    //position a segment on the top row left edge
+    auto segment = Segment{10,30, 10.f};
+    //get segment coordinates before movement operation
+    auto[segXB,segYB] = segment.getSegmentCoords();
+    //attempt to move segment by one unit beyond left edge
+    segment.moveSegment(-1,0);
+    //get coordinates of segment after movement
+    auto[segXA,segYA] = segment.getSegmentCoords();
+    //x coordinate should not have changed
+    CHECK(segXA == segXB);
+    CHECK_FALSE(segYA == segYB);
+}
+
+TEST_CASE("Segment moves down by one row when moving from right edge")
+{
+    //position a segment on the top row right edge
+    auto segment = Segment{fieldWidth-10,30, 10.f};
+    //get segment coordinates before movement operation
+    auto[segXB,segYB] = segment.getSegmentCoords();
+    //attempt to move segment by one unit beyond right edge
+    segment.moveSegment(1,0);
+    //get coordinates of segment after movement
+    auto[segXA,segYA] = segment.getSegmentCoords();
+    //x coordinate should not have changed
+    CHECK(segXA == segXB);
+    //segment should move down by one row
+    CHECK(segYA == segYB+1);
+}
+
+TEST_CASE("Segment moves down by one row when moving from edge")
+{
+    //position a segment on the top row left edge
+    auto segment = Segment{10,30, 10.f};
+    //get segment coordinates before movement operation
+    auto[segXB,segYB] = segment.getSegmentCoords();
+    //attempt to move segment by one unit beyond left edge
+    segment.moveSegment(-1,0);
+    //get coordinates of segment after movement
+    auto[segXA,segYA] = segment.getSegmentCoords();
+    //x coordinate should not have changed
+    CHECK(segXA == segXB);
+    //segment should move down by one row
+    CHECK(segYA == segYB+1);
+}
 
 

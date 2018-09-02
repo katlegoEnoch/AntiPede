@@ -36,10 +36,29 @@ void Ant::drawAntOnField(sf::RenderWindow* window)
 }
 
 
-void Ant::moveAnt(int deltaX, int deltaY)
+void Ant::moveAnt(const int& deltaX, const int& deltaY)
 {
-    //change ant's x position by deltaX
-    antX_+= deltaX;
+    auto left_edge = fieldWidth - 10;
+    auto right_edge = 10;
+    
+    //if movement is to the right
+    if(deltaX > 0){
+        if(antX_ == left_edge){
+        antX_ = antX_;
+        }
+        else{
+        //change ant's x position by deltaX
+        antX_+= deltaX;
+        }
+    }//end if
+    else{//if movement is to the left
+        if(antX_ == right_edge){
+            antX_ = antX_;
+        }
+        else
+            antX_ += deltaX;
+    }
+    
     //change ant's y position by deltaY
     antY_ += deltaY;
 }

@@ -33,7 +33,7 @@ GameController::GameController() : gameIsRunning_(false), appWindow_(NULL)
     field_ = new Field(fieldWidth,fieldHeight);
     
     ant_ = new Ant(ant_x,ant_y,20);
-    segment_ = new Segment(seg_x,seg_y,10.f);
+    segment_ = new Segment(seg_x,seg_y,10.f,Direction::EAST);
 }
 
 void GameController::openApplicationWindow()
@@ -129,15 +129,39 @@ void GameController::playGame()
     //gameIsRunning_ = false;
     
     sf::Event extern_event;
-    auto counter = 0;
     
     //while the window is open
     while(appWindow_->isOpen())
     {
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
-            segment_->moveSegment(8,0);
-            cout << counter++ << endl;
+            if(segment_->onRightEdge()){
+                //compute current coordinates
+                auto[segX,segY] = segment_->getSegmentCoords();
+                //move down one row
+                segment_->moveSegment(segX,segY+1);
+                //change direction
+                segment_->setDirection(Direction::WEST);
+                //get segment off the edge
+                segment_->moveSegment(-1,0);
+            }
+            else if(segment_->onLeftEdge()){
+                //compute current coordinates
+                auto[segX,segY] = segment_->getSegmentCoords();
+                //move down one row
+                segment_->moveSegment(segX,segY+1);
+                //change direction
+                segment_->setDirection(Direction::EAST);
+                //move segment by one unit to right
+                segment_->moveSegment(1,0);//get it off the edge
+            }
+            else{//segment is on neither edge
+                if(segment_->onRightEdge() || segment_->onLeftEdge()){
+                    
+                }
+                //move segment in direction
+                segment_->move(1,segment_->getDirection());
+            }
         }
         while(appWindow_->pollEvent(extern_event)){
             //if the triggered event is 'close window' event

@@ -31,3 +31,30 @@ void Segment::drawSegmentOnField(sf::RenderWindow* window)
     //return control to caller
     return;
 }
+
+void Segment::moveSegment(const int& deltaX,const int& deltaY)
+{
+    auto right_edge = fieldWidth - 30;
+    auto left_edge = 10;
+    //for right movements
+    if(deltaX>0){
+        if(segmentX_ == right_edge){
+            segmentX_ = segmentX_;
+            segmentY_ += 1;
+        }//end if
+        else{
+            segmentX_ += deltaX;
+            segmentY_ = segmentY_;
+        }
+    }//end if
+    else{//for left movements
+        if(segmentX_ == left_edge){
+            segmentX_ = segmentX_;
+            segmentY_ += 1;
+        }//end if
+        else{
+            segmentX_ += deltaX;
+            segmentY_  = segmentY_;
+        }
+    }
+}
