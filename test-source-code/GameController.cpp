@@ -20,20 +20,10 @@ auto appWindow = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "Ant
 //function of constructor is to initialize the state of its data members
 GameController::GameController() : gameIsRunning_(false), appWindow_(NULL)
 {
-    //local variables - 
-    //ensure that ant starts at centre of bottom row
-    auto ant_x = static_cast<int>((fieldWidth/2)-20);
-    auto ant_y = fieldHeight - 30;
-    
-    //segment always starts at top left of field
-    auto seg_x = 10;
-    auto seg_y = 10;
-    
     //initialize game objects
-    field_ = new Field(fieldWidth,fieldHeight);
-    
-    ant_ = new Ant(ant_x,ant_y,20);
-    segment_ = new Segment(seg_x,seg_y,10.f);
+    field_ = new Field(800,600);
+    ant_ = new Ant(380,570,20);
+    segment_ = new Segment(10,10,20.f);
 }
 
 void GameController::openApplicationWindow()
@@ -50,25 +40,12 @@ void GameController::openApplicationWindow()
 
 void GameController::displaySplashScreen()
 {
-    //local variables to ensure that sizes are relative to screen dimensions
-    auto charSize =        static_cast<int>((fieldWidth+fieldHeight)/47);
-    auto versionCharSize = static_cast<int>((fieldWidth+fieldHeight)/93);
-    auto keysCharSize =    static_cast<int>((fieldWidth+fieldHeight)/70);
-    auto message_x =       static_cast<double>((fieldWidth/4) - 20);
-    auto message_y =       static_cast<double>((fieldHeight/2) - 20);
-    auto keys_x =          static_cast<double>(fieldWidth/16);
-    auto keys_y =          static_cast<double>(fieldHeight - 100);
-    auto version_x =       static_cast<double>((fieldWidth/2) - 80);
-    auto version_y =       static_cast<double>(fieldHeight - 30);
-    auto image_x =         static_cast<double>((fieldWidth/4) + 60);
-    auto image_y =         static_cast<double>(fieldHeight/10);
-    
     sf::Texture texture;
     if(!texture.loadFromFile("splashGround.jpg"))
     {/*do nothing for now*/}
     sf::Sprite sprite;
     sprite.setTexture(texture);
-    sprite.setPosition(image_x,image_y);
+    sprite.setPosition(260.f,60.f);
     //draw sprite
     appWindow_->draw(sprite);
     
@@ -80,8 +57,8 @@ void GameController::displaySplashScreen()
     
     sf::Text   splashMessage;
     splashMessage.setFont(font);
-    splashMessage.setCharacterSize(charSize);
-    splashMessage.setPosition(message_x,message_y);
+    splashMessage.setCharacterSize(30);
+    splashMessage.setPosition(180.f,280.f);
     splashMessage.setFillColor(sf::Color::Green);
     splashMessage.setString("\tWelcome to Antipede!\nPress Space-Bar to start game");
     
@@ -95,8 +72,8 @@ void GameController::displaySplashScreen()
     //
     sf::Text  playerKeys;
     playerKeys.setFont(keysFont);
-    playerKeys.setCharacterSize(keysCharSize);
-    playerKeys.setPosition(keys_x,keys_y);
+    playerKeys.setCharacterSize(20);
+    playerKeys.setPosition(50.f,500.f);
     playerKeys.setFillColor(sf::Color::Green);
     playerKeys.setString("\tKEYS: left-arrow | move left\tright-arrow | move right\ttop-arrow | fire bullet");
     
@@ -110,8 +87,8 @@ void GameController::displaySplashScreen()
     //
     sf::Text  version;
     version.setFont(keysFont);
-    version.setCharacterSize(versionCharSize);
-    version.setPosition(version_x,version_y);
+    version.setCharacterSize(15);
+    version.setPosition(320.f,570.f);
     version.setFillColor(sf::Color::White);
     version.setString("\tAntipede v1.0");
     
