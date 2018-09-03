@@ -7,7 +7,6 @@
 #define   SEGMENT_H
 
 /*A centipede is made up of segments*/
-#include <SFML/Graphics.hpp>
 #include <tuple>
 using namespace std;
 

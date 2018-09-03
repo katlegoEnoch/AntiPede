@@ -27,22 +27,40 @@ void Segment::moveSegment(const int& deltaX,const int& deltaY)
 {
     auto right_edge = fieldWidth - 30;
     auto left_edge = 10;
+    
+    if(segmentX_ == left_edge)
+    {
+        if(!(segmentX_ < left_edge)){
+            segmentX_ = segmentX_;
+            segmentY_ += 10;
+        }
+        else{
+            segmentX_ = left_edge;
+            segmentY_ += 10;
+        }
+    }
+    
     //for right movements
     if(deltaX>0){
         if(segmentX_ == right_edge){
-            segmentX_ = segmentX_;
-            segmentY_ += deltaY;
+            if(!(segmentX_ > right_edge)){
+                segmentX_ = segmentX_;
+                segmentY_ += 10;
+            }
+            else{
+                segmentX_ = right_edge;
+                segmentY_ += 10;
+            }
         }//end if
         else{
             segmentX_ += deltaX;
             segmentY_ = segmentY_;
         }
     }//end if
-    else{//for left movements
-        if(segmentX_ == left_edge){
+    else {//for left movements
+        if(segmentX_ == 10){
             segmentX_ = segmentX_;
-            segmentY_ += deltaY;
-            cout << "left edge" << endl;
+            segmentY_ += 2;
         }//end if
         else{
             segmentX_ += deltaX;
@@ -71,11 +89,19 @@ bool Segment::onLeftEdge() const
 //move direction in specified direction by specified amount
 void Segment::move(const int& steps, const Direction& dir)
 {
-    //cout << "I'm here" << endl;
+    auto right_edge = fieldWidth - 30;
+    auto left_edge = 10;
     
-    if(dir == Direction::EAST)
-        segmentX_ += steps;
+    if(dir == Direction::EAST){
+        if((segmentX_+steps) <= right_edge)
+            segmentX_ += steps;
+        else
+            segmentX_ = right_edge;
+    }
     else if(dir == Direction::WEST){
-        segmentX_ -= steps;
+        if((segmentX_-steps >= left_edge))
+            segmentX_ -= steps;
+        else
+            segmentX_ = left_edge;
     }
 }

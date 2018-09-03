@@ -7,7 +7,7 @@
 #ifndef  ANT_H
 #define  ANT_H
 
-#include <SFML/Graphics.hpp>
+
 #include <tuple>
 
 #include "Field.h"

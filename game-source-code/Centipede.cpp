@@ -14,7 +14,9 @@ void Centipede::addSegmentToCentipede(const Segment* segment)
 
 void Centipede::moveCentipede()
 {
+    int cent_speed = 5;
     
+    //for all the segments in the centipede
     for(size_t i = 0; i < segments_.size(); i++){
         if(segments_.at(i).onRightEdge()){
                 //compute current coordinates
@@ -40,7 +42,7 @@ void Centipede::moveCentipede()
                 //if(segment_->onRightEdge() || segment_->onLeftEdge()){
                 //}
                 //move segment in direction
-                segments_.at(i).move(1,segments_.at(i).getDirection());
+                segments_.at(i).move(cent_speed,segments_.at(i).getDirection());
             }
     }
     

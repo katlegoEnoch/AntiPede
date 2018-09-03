@@ -8,7 +8,6 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
-#include <SFML/Graphics.hpp>
 
 #include "Field.h"
 #include "Ant.h"

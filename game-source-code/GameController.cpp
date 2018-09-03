@@ -26,7 +26,7 @@ GameController::GameController() : gameIsRunning_(false)
     auto ant_y = fieldHeight - 30;
     
     //segment always starts at top left of field
-    auto seg_x = 10;
+    auto seg_x = 11;
     auto seg_y = 10;
     
     //initialize game objects
@@ -34,14 +34,16 @@ GameController::GameController() : gameIsRunning_(false)
     
     ant_ = new Ant(ant_x,ant_y,20);
     segment_ = new Segment(seg_x,seg_y,10.f,Direction::EAST);
-    auto segment2 = new Segment(seg_x+30,seg_y,10.f,Direction::EAST);
-    auto segment3 = new Segment(seg_x+50,seg_y,10.f,Direction::EAST);
+    auto segment2 = new Segment(seg_x+20,seg_y,10.f,Direction::EAST);
+    auto segment3 = new Segment(seg_x+40,seg_y,10.f,Direction::EAST);
+    auto segment4 = new Segment(seg_x+60,seg_y,10.f,Direction::EAST);
     
     centipede_ = new Centipede();
     //add segment to centipede
     centipede_->addSegmentToCentipede(segment_);
     centipede_->addSegmentToCentipede(segment2);
     centipede_->addSegmentToCentipede(segment3);
+    centipede_->addSegmentToCentipede(segment4);
     
     //create a window
     appWindow_ = new Window(800,600);
