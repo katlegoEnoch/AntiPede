@@ -24,7 +24,6 @@ public:
     //instatiated with specific position on the field and size
     Ant(const int&, const int&, const double&);
     //clients of Ant object can...
-    void drawAntOnField(sf::RenderWindow*);
     //move ant by x units, left or right, and y units, up or down
     void moveAnt(int, int);
     //receive coordinates of ant on the field

@@ -22,10 +22,18 @@ public:
     void moveCentipede();
     void addSegmentToCentipede(const Segment* );
     void drawCentipede(sf::RenderWindow* );
+    size_t  numberOfSegments() const {return segments_.size();}
+    //returns i-th segment of Centipede
+    Segment getSegmentAt(const int& position) const { return segments_.at(position);}
+    //set renderer
+    //void setRenderer(const Renderer* rend) {renderer_ = rend;}
+    //get renderer
+    //Renderer* getRenderer() const {return renderer_;}
 
 private:
 //a centipede has a number of segments that it maintains in its memory
     vector<Segment> segments_;
+
     
 };//end Centipede class definition
 

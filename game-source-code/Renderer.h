@@ -8,11 +8,29 @@
 #ifndef RENDERER_H
 #define RENDERER_H
 
+#include <SFML/Graphics.hpp>
+
+#include "Field.h"
+#include "Ant.h"
+#include "Segment.h"
+#include "Centipede.h"
+#include "Window.h"
+
 class Renderer{
     
 public:
+    //create a Renderer object and attach a window to it
+    Renderer(Window*);
+
+    void drawField(const Field*);
+    void drawAntOnField(const Ant*);
+    void drawCentipede(const Centipede* );
+    void drawSegmentOnField(const Segment& );//had to be passed by reference
     
 private:
+
+    //has window that is draws on
+    Window* window_;
 };
 
 #endif

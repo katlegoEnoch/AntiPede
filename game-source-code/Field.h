@@ -6,7 +6,6 @@
 #ifndef  FIELD_H
 #define  FIELD_H
 
-#include <SFML/Graphics.hpp>
 #include <tuple>
 using namespace std;
 
@@ -21,8 +20,6 @@ class Field{
 public:
     //Field object instantiated with boundary
     Field(const int&, const int&);
-    //draw the field on the active window
-    void drawField(sf::RenderWindow*);
     //Field object can be queryied what its boundary co-ordinates are
     tuple<int,int> fieldBoundary() const;
     

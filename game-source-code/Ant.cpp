@@ -25,17 +25,6 @@ Ant::Ant(const int& antX, const int& antY, const double& ant_size) : antX_{antX}
         
 }
 
-void Ant::drawAntOnField(sf::RenderWindow* window)
-{
-    sf::RectangleShape ant;
-    ant.setSize(sf::Vector2f(antSize_,antSize_));
-    ant.setPosition(antX_,antY_);
-    ant.setFillColor(sf::Color::Green);
-    
-    window->draw(ant);
-}
-
-
 void Ant::moveAnt(int deltaX, int deltaY)
 {
    auto left_edge = fieldWidth - 30;

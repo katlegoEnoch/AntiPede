@@ -14,11 +14,11 @@ using namespace std;
 
 /*Ran into scope issues and window was only open in the function in which the renderWindow function is called*/
 //window dimensions
-auto appWindow = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "Antipede");
+
 
 
 //function of constructor is to initialize the state of its data members
-GameController::GameController() : gameIsRunning_(false), appWindow_(NULL)
+GameController::GameController() : gameIsRunning_(false)
 {
     //local variables - 
     //ensure that ant starts at centre of bottom row
@@ -42,16 +42,22 @@ GameController::GameController() : gameIsRunning_(false), appWindow_(NULL)
     centipede_->addSegmentToCentipede(segment_);
     centipede_->addSegmentToCentipede(segment2);
     centipede_->addSegmentToCentipede(segment3);
+    
+    //create a window
+    appWindow_ = new Window(800,600);
+    
+    //create a renderer and initialize its window
+    renderer_ = new Renderer(appWindow_);
 }
 
 void GameController::openApplicationWindow()
 {
     //Attach a window to Controller's appWindow pointer
-    appWindow_ = &appWindow;
+    //appWindow_ = &appWindow;
     //synchronize frame-rate to monitor's frame rate
-    appWindow_->setVerticalSyncEnabled(true);
+    appWindow_->getWindow()->setVerticalSyncEnabled(true);
     //clear the window
-    appWindow_->clear(sf::Color::Black);
+    appWindow_->getWindow()->clear(sf::Color::Black);
     //return controller to caller
     return;
 }
@@ -78,7 +84,7 @@ void GameController::displaySplashScreen()
     sprite.setTexture(texture);
     sprite.setPosition(image_x,image_y);
     //draw sprite
-    appWindow_->draw(sprite);
+    appWindow_->getWindow()->draw(sprite);
     
     //write message on screen
     sf::Font   font;
@@ -93,7 +99,7 @@ void GameController::displaySplashScreen()
     splashMessage.setFillColor(sf::Color::Green);
     splashMessage.setString("\tWelcome to AntIpede!\nPress Space-Bar to start game");
     
-    appWindow_->draw(splashMessage);
+    appWindow_->getWindow()->draw(splashMessage);
     
     //player keys
     sf::Font  keysFont;
@@ -108,7 +114,7 @@ void GameController::displaySplashScreen()
     playerKeys.setFillColor(sf::Color::Green);
     playerKeys.setString("\tKEYS: left-arrow | move left\tright-arrow | move right\ttop-arrow | fire bullet");
     
-    appWindow_->draw(playerKeys);
+    appWindow_->getWindow()->draw(playerKeys);
     
     //player keys
     sf::Font  versionFont;
@@ -123,9 +129,9 @@ void GameController::displaySplashScreen()
     version.setFillColor(sf::Color::White);
     version.setString("\tAntipede v1.0");
     
-    appWindow_->draw(version);
+    appWindow_->getWindow()->draw(version);
     
-    appWindow_->display();
+    appWindow_->getWindow()->display();
     //function done with its task, return control to caller
     return;
 }
@@ -139,7 +145,7 @@ void GameController::playGame()
     sf::Event extern_event;
     
     //while the window is open
-    while(appWindow_->isOpen())
+    while(appWindow_->getWindow()->isOpen())
     {
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
@@ -147,12 +153,12 @@ void GameController::playGame()
             centipede_->moveCentipede();
             
         }
-        while(appWindow_->pollEvent(extern_event)){
+        while(appWindow_->getWindow()->pollEvent(extern_event)){
             //if the triggered event is 'close window' event
             if((extern_event.type == sf::Event::Closed) || (extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Escape))
             {
                 //close window
-                appWindow_->close();
+                appWindow_->getWindow()->close();
                 //break out of the event monitoring loop,
                 break;
             }//end if
@@ -177,23 +183,20 @@ void GameController::playGame()
             
             //display the window
             //appWindow_->display();
-            appWindow_->clear();
+            appWindow_->getWindow()->clear();
         }//end event monitoring loop
-        //cout << "here" << endl;
          //decide on action based on status of game, running or not
            if(gameIsRunning_){
                 //....           
                 //clear the window
-                appWindow_->clear(Military_Green);
+                appWindow_->getWindow()->clear(Military_Green);
                 //Draw Field 
-                field_->drawField(appWindow_);
+                renderer_->drawField(field_);
                 //draw Ant
-                ant_->drawAntOnField(appWindow_);
-                //draw Segment
-                //segment_->drawSegmentOnField(appWindow_);
+                renderer_->drawAntOnField(ant_);
                 //draw Centipede
-                centipede_->drawCentipede(appWindow_);
-                appWindow_->display();
+                renderer_->drawCentipede(centipede_);
+                appWindow_->getWindow()->display();
                 //cout << counter++ << endl;;
                 //gameIsRunning_ = false;
             }

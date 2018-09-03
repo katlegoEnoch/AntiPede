@@ -22,7 +22,6 @@ public:
     //construct Segment object with specific location on field and size
     Segment(const int&, const int&, const double&, const Direction&);
     //clients of Segment can...
-    void drawSegmentOnField(sf::RenderWindow* );
     tuple<int,int> getSegmentCoords() const {return {segmentX_,segmentY_};}
     //move Segment by specified amount
     void moveSegment(const int&, const int&);
@@ -32,7 +31,8 @@ public:
     void setDirection(Direction dir)  {segmentDir_ = dir;}
     //get the segment's current direction of travel
     Direction getDirection() const {return segmentDir_;}
-    
+    //get segment size
+    int segmentSize() const {return segmentSize_;}
     //ensure that segment never moves beyond edges
     bool onRightEdge() const;
     bool onLeftEdge() const;

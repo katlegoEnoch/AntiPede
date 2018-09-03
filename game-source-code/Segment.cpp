@@ -23,20 +23,6 @@ Segment::Segment(const int& segX, const int& segY, const double& segSize, const 
     }
 }
 
-void Segment::drawSegmentOnField(sf::RenderWindow* window)
-{
-    
-    
-    sf::CircleShape segment(segmentSize_);
-    segment.setFillColor(sf::Color::Red);
-    segment.setPosition(segmentX_,segmentY_);
-    
-    window->draw(segment);
-    
-    //return control to caller
-    return;
-}
-
 void Segment::moveSegment(const int& deltaX,const int& deltaY)
 {
     auto right_edge = fieldWidth - 30;

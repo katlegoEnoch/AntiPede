@@ -46,12 +46,5 @@ void Centipede::moveCentipede()
     
 }
 
-void Centipede::drawCentipede(sf::RenderWindow* window)
-{
-    //command all segments to draw themselves
-    for(size_t loc = 0; loc < segments_.size();loc++){
-        segments_.at(loc).drawSegmentOnField(window);
-    }
-}
 
 
