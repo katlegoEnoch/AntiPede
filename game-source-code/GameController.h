@@ -10,6 +10,7 @@
 #include "Ant.h"
 #include "Segment.h"
 #include "constants.h"
+#include "Centipede.h"
 #include <SFML/Graphics.hpp>
 
 class GameController{
@@ -32,8 +33,10 @@ private:
     Field*   field_;
     Ant*     ant_;
     Segment* segment_;
+    Centipede* centipede_;
     //additional variables
     bool gameIsRunning_; //keeps record of game status
+    
     
     sf::RenderWindow* appWindow_;
 };

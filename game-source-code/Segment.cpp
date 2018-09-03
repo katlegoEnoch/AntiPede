@@ -25,6 +25,8 @@ Segment::Segment(const int& segX, const int& segY, const double& segSize, const 
 
 void Segment::drawSegmentOnField(sf::RenderWindow* window)
 {
+    
+    
     sf::CircleShape segment(segmentSize_);
     segment.setFillColor(sf::Color::Red);
     segment.setPosition(segmentX_,segmentY_);

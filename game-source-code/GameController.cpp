@@ -14,7 +14,7 @@ using namespace std;
 
 /*Ran into scope issues and window was only open in the function in which the renderWindow function is called*/
 //window dimensions
-auto appWindow = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "Antipede", sf::Style::Close | sf::Style::Resize);
+auto appWindow = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "Antipede");
 
 
 //function of constructor is to initialize the state of its data members
@@ -34,6 +34,14 @@ GameController::GameController() : gameIsRunning_(false), appWindow_(NULL)
     
     ant_ = new Ant(ant_x,ant_y,20);
     segment_ = new Segment(seg_x,seg_y,10.f,Direction::EAST);
+    auto segment2 = new Segment(seg_x+30,seg_y,10.f,Direction::EAST);
+    auto segment3 = new Segment(seg_x+50,seg_y,10.f,Direction::EAST);
+    
+    centipede_ = new Centipede();
+    //add segment to centipede
+    centipede_->addSegmentToCentipede(segment_);
+    centipede_->addSegmentToCentipede(segment2);
+    centipede_->addSegmentToCentipede(segment3);
 }
 
 void GameController::openApplicationWindow()
@@ -83,7 +91,7 @@ void GameController::displaySplashScreen()
     splashMessage.setCharacterSize(charSize);
     splashMessage.setPosition(message_x,message_y);
     splashMessage.setFillColor(sf::Color::Green);
-    splashMessage.setString("\tWelcome to Antipede!\nPress Space-Bar to start game");
+    splashMessage.setString("\tWelcome to AntIpede!\nPress Space-Bar to start game");
     
     appWindow_->draw(splashMessage);
     
@@ -135,33 +143,9 @@ void GameController::playGame()
     {
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
-            if(segment_->onRightEdge()){
-                //compute current coordinates
-                auto[segX,segY] = segment_->getSegmentCoords();
-                //move down one row
-                segment_->moveSegment(segX,segY+1);
-                //change direction
-                segment_->setDirection(Direction::WEST);
-                //get segment off the edge
-                segment_->moveSegment(-1,0);
-            }
-            else if(segment_->onLeftEdge()){
-                //compute current coordinates
-                auto[segX,segY] = segment_->getSegmentCoords();
-                //move down one row
-                segment_->moveSegment(segX,segY+1);
-                //change direction
-                segment_->setDirection(Direction::EAST);
-                //move segment by one unit to right
-                segment_->moveSegment(1,0);//get it off the edge
-            }
-            else{//segment is on neither edge
-                if(segment_->onRightEdge() || segment_->onLeftEdge()){
-                    
-                }
-                //move segment in direction
-                segment_->move(1,segment_->getDirection());
-            }
+            //move Centipede
+            centipede_->moveCentipede();
+            
         }
         while(appWindow_->pollEvent(extern_event)){
             //if the triggered event is 'close window' event
@@ -206,7 +190,9 @@ void GameController::playGame()
                 //draw Ant
                 ant_->drawAntOnField(appWindow_);
                 //draw Segment
-                segment_->drawSegmentOnField(appWindow_);
+                //segment_->drawSegmentOnField(appWindow_);
+                //draw Centipede
+                centipede_->drawCentipede(appWindow_);
                 appWindow_->display();
                 //cout << counter++ << endl;;
                 //gameIsRunning_ = false;
