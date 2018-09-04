@@ -19,14 +19,16 @@ class Renderer{
     
 public:
     //create a Renderer object and attach a window to it
-    Renderer(Window*);
+    Renderer(Window*);//couldn't make Window constant
 
     void drawField(const Field*);
     void drawAntOnField(const Ant*);
     void drawCentipede(const Centipede* );
-    void drawSegmentOnField(const Segment& );//had to be passed by reference
     
 private:
+    //not required be external objects, helper to drawCentipede member
+    void drawSegmentOnField(const Segment& );//had to be passed by reference
+
 
     //has window that is draws on
     Window* window_;

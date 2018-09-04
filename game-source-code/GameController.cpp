@@ -140,9 +140,6 @@ void GameController::displaySplashScreen()
 
 void GameController::playGame()
 {
-    //int counter = 0;
-    
-    //gameIsRunning_ = false;
     
     sf::Event extern_event;
     
@@ -152,7 +149,7 @@ void GameController::playGame()
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
-            centipede_->moveCentipede();
+            centipede_->moveCentipede(5);
             
         }
         while(appWindow_->getWindow()->pollEvent(extern_event)){
