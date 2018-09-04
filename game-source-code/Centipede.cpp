@@ -7,7 +7,10 @@
 #include <iostream>
 using namespace std;
 
-void Centipede::addSegmentToCentipede(const Segment* segment)
+Centipede::Centipede(const int& segments) : numberOfSegments_{segments}
+{}
+
+void Centipede::addSegmentToCentipede(const shared_ptr<Segment> segment)
 {
     segments_.push_back(*segment);
 }

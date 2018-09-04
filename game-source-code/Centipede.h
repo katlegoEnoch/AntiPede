@@ -8,6 +8,9 @@
 
 
 #include "Segment.h"
+#include <memory>
+using std::shared_ptr;
+
 #include <vector>
 using namespace std;
 
@@ -18,11 +21,14 @@ using namespace std;
 class Centipede{
     
 public:
+    //construct Centipede with certain number of Segments
+    Centipede(const int&);
+
     //move Centipede at particular speed
     void moveCentipede(const int&);
     //add a segment to Centipede
-    void addSegmentToCentipede(const Segment* );
-    size_t  numberOfSegments() const {return segments_.size();}
+    void addSegmentToCentipede(const shared_ptr<Segment> );
+    size_t  numberOfSegments() const {return numberOfSegments_;}
     //returns i-th segment of Centipede
     Segment getSegmentAt(const int& position) const { return segments_.at(position);}
     
@@ -30,6 +36,7 @@ public:
 private:
 //a centipede has a number of segments that it maintains in its memory
     vector<Segment> segments_;
+    int numberOfSegments_;
 
 };//end Centipede class definition
 

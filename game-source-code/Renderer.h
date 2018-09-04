@@ -19,11 +19,11 @@ class Renderer{
     
 public:
     //create a Renderer object and attach a window to it
-    Renderer(Window*);//couldn't make Window constant
+    Renderer(shared_ptr<Window>);//couldn't make Window constant
 
-    void drawField(const Field*);
-    void drawAntOnField(const Ant*);
-    void drawCentipede(const Centipede* );
+    void drawField(const shared_ptr<Field>);
+    void drawAntOnField(const shared_ptr<Ant>);
+    void drawCentipede(const shared_ptr<Centipede>);
     
 private:
     //not required be external objects, helper to drawCentipede member
@@ -31,7 +31,7 @@ private:
 
 
     //has window that is draws on
-    Window* window_;
+    shared_ptr<Window> window_;
 };
 
 #endif

@@ -6,11 +6,11 @@
 #include "Renderer.h"
 
 //constructor
-Renderer::Renderer(Window* window) : window_{window}
+Renderer::Renderer(shared_ptr<Window> window) : window_{window}
 {}
 
 
-void Renderer::drawField(const Field* field)
+void Renderer::drawField(const shared_ptr<Field> field)
 {
     sf::RectangleShape rect;
     auto[boundX,boundY] = field->fieldBoundary();
@@ -25,7 +25,7 @@ void Renderer::drawField(const Field* field)
     return;
 }
 
-void Renderer::drawAntOnField(const Ant* ant)
+void Renderer::drawAntOnField(const shared_ptr<Ant> ant)
 {
     sf::RectangleShape antShape;
     antShape.setSize(sf::Vector2f(ant->getAntSize(),ant->getAntSize()));
@@ -49,7 +49,7 @@ void Renderer::drawSegmentOnField(const Segment& seg)
     return;
 }
 
-void Renderer::drawCentipede(const Centipede* centi)
+void Renderer::drawCentipede(const shared_ptr<Centipede> centi)
 {
     //assign current window to Centipede's renderer
     //centi->setRenderer(window_->getWindow());

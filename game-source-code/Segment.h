@@ -38,7 +38,6 @@ public:
     
 private:
 
-
     //has a coordinate on the field
     int segmentX_;
     int segmentY_;
