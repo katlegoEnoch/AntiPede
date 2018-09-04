@@ -39,8 +39,6 @@ void Centipede::moveCentipede()
                 segments_.at(i).moveSegment(1,0);//get it off the edge
             }
             else{//segment is on neither edge
-                //if(segment_->onRightEdge() || segment_->onLeftEdge()){
-                //}
                 //move segment in direction
                 segments_.at(i).move(cent_speed,segments_.at(i).getDirection());
             }

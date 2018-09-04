@@ -12,6 +12,7 @@
 
 #include "Field.h"
 #include "constants.h"
+#include "Gun.h"
 
 class AntCoordinatesOutOfFieldBounds {};
 class AntSizeBeyondFieldBounds{};
@@ -38,6 +39,8 @@ private:
     int antY_;
     //the ant, modelled as a square, has a size which is simply the length of a side
     double antSize_;
+    //ant carries a gun
+    Gun* gun_;
 
 };
 
