@@ -30,12 +30,11 @@ GameController::GameController() : gameIsRunning_(false)
     auto ant_y = fieldHeight - 30;
     ant_ = make_shared<Ant>(ant_x,ant_y,20);
     
-    //construct Centipede with 5 segments
+    //construct Centipede with 10 segments
     centipede_ = make_shared<Centipede>(10);
     //Centipede always starts at top left of field
     auto seg_x = 11;
     auto seg_y = 10;
-    cout << centipede_->numberOfSegments() << endl;
     //add segments to Centipede
     for(size_t cent_elmnt = 0; cent_elmnt < centipede_->numberOfSegments();cent_elmnt++){
         if(cent_elmnt != 0){
@@ -45,7 +44,6 @@ GameController::GameController() : gameIsRunning_(false)
             centipede_->addSegmentToCentipede(segment);
         }//end if
         else{
-            cout << "Here" << endl;
             auto segment = make_shared<Segment>(seg_x,seg_y,10.f,Direction::EAST);
             //add segment to Centipeded
             centipede_->addSegmentToCentipede(segment);
@@ -53,7 +51,9 @@ GameController::GameController() : gameIsRunning_(false)
     }//end loop
     
     //create a window
-    appWindow_ = make_shared<Window>(800,600);
+    appWindow_ = make_shared<Window>(300,300);
+    //create resource
+    resource_ = make_shared<Resource>();
     
     //create a renderer and initialize its window
     renderer_ = make_shared<Renderer>(appWindow_);
@@ -61,88 +61,23 @@ GameController::GameController() : gameIsRunning_(false)
 
 void GameController::openApplicationWindow()
 {
+    
     //Attach a window to Controller's appWindow pointer
-    //appWindow_ = &appWindow;
     //synchronize frame-rate to monitor's frame rate
     appWindow_->getWindow()->setVerticalSyncEnabled(true);
     //clear the window
     appWindow_->getWindow()->clear(sf::Color::Black);
     //return controller to caller
+    
     return;
 }
 
 void GameController::displaySplashScreen()
 {
-    //local variables to ensure that sizes are relative to screen dimensions
-    auto charSize =        static_cast<int>((fieldWidth+fieldHeight)/47);
-    auto versionCharSize = static_cast<int>((fieldWidth+fieldHeight)/93);
-    auto keysCharSize =    static_cast<int>((fieldWidth+fieldHeight)/70);
-    auto message_x =       static_cast<double>((fieldWidth/4) - 20);
-    auto message_y =       static_cast<double>((fieldHeight/2) - 20);
-    auto keys_x =          static_cast<double>(fieldWidth/16);
-    auto keys_y =          static_cast<double>(fieldHeight - 100);
-    auto version_x =       static_cast<double>((fieldWidth/2) - 80);
-    auto version_y =       static_cast<double>(fieldHeight - 30);
-    auto image_x =         static_cast<double>((fieldWidth/4) + 60);
-    auto image_y =         static_cast<double>(fieldHeight/10);
-    
-    sf::Texture texture;
-    if(!texture.loadFromFile("splashGround.jpg"))
-    {/*do nothing for now*/}
-    sf::Sprite sprite;
-    sprite.setTexture(texture);
-    sprite.setPosition(image_x,image_y);
-    //draw sprite
-    appWindow_->getWindow()->draw(sprite);
-    
-    //write message on screen
-    sf::Font   font;
-    //select font for our text
-    if(!font.loadFromFile("Xanadu.ttf"))
-    {/*do nothing for now*/}
-    
-    sf::Text   splashMessage;
-    splashMessage.setFont(font);
-    splashMessage.setCharacterSize(charSize);
-    splashMessage.setPosition(message_x,message_y);
-    splashMessage.setFillColor(sf::Color::Green);
-    splashMessage.setString("\tWelcome to AntIpede!\nPress Space-Bar to start game");
-    
-    appWindow_->getWindow()->draw(splashMessage);
-    
-    //player keys
-    sf::Font  keysFont;
-    //select font for lower text
-    if(!keysFont.loadFromFile("Zanes.ttf"))
-    {/*do nothing for now*/}
-    //
-    sf::Text  playerKeys;
-    playerKeys.setFont(keysFont);
-    playerKeys.setCharacterSize(keysCharSize);
-    playerKeys.setPosition(keys_x,keys_y);
-    playerKeys.setFillColor(sf::Color::Green);
-    playerKeys.setString("\tKEYS: left-arrow | move left\tright-arrow | move right\ttop-arrow | fire bullet");
-    
-    appWindow_->getWindow()->draw(playerKeys);
-    
-    //player keys
-    sf::Font  versionFont;
-    //select font for lower text
-    if(!versionFont.loadFromFile("Serifa.ttf"))
-    {/*do nothing for now*/}
-    //
-    sf::Text  version;
-    version.setFont(keysFont);
-    version.setCharacterSize(versionCharSize);
-    version.setPosition(version_x,version_y);
-    version.setFillColor(sf::Color::White);
-    version.setString("\tAntipede v1.0");
-    
-    appWindow_->getWindow()->draw(version);
-    
-    appWindow_->getWindow()->display();
-    //function done with its task, return control to caller
-    return;
+    //create ScreenSplasher object and pass window
+    ScreenSplasher splasher(appWindow_,resource_);
+    //command object to display splash screen
+    splasher.displaySplashScreen();
 }
 
 void GameController::playGame()

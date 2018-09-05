@@ -6,11 +6,13 @@
 #include "Window.h"
 #include "constants.h"
 
-auto window = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "Antipede");
+#include <iostream>
+using namespace std;
 
-Window::Window(const int& width, const int& height) : window_width_{width}, window_height_(height)
+auto window = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "ANTIpede");
+
+Window::Window(const int& width, const int& height) : window_width_{width}, window_height_{height}
 {
-    
     window_ = &window;
 }
 

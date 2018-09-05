@@ -19,8 +19,8 @@ using std::make_shared;
 #include "Centipede.h"
 #include "Renderer.h"
 #include "Window.h"
-
-#include <SFML/Graphics.hpp>
+#include "ScreenSplasher.h"
+#include "Resource.h"
 
 class GameController{
     
@@ -43,10 +43,9 @@ private:
     shared_ptr<Centipede> centipede_;
     shared_ptr<Renderer> renderer_;
     shared_ptr<Window> appWindow_;
+    shared_ptr<Resource> resource_;
     //additional variables
     bool gameIsRunning_; //keeps record of game status
-    
-    
 };
 
 #endif

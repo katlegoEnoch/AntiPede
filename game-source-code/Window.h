@@ -19,9 +19,9 @@ public:
     //create a window with specific dimensions
     Window(const int&, const int&);
     //get screen dimensions
-    size_t windowHeight() const {return window_height_;}
     size_t windowWidth() const {return window_width_;}
-    //get window
+    size_t windowHeight() const {return window_height_;}
+      //get window
     sf::RenderWindow* getWindow() const {return window_;}
 
 private:
