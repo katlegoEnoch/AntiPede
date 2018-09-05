@@ -4,10 +4,6 @@
 //Details:   
 
 #include "GameController.h"
-#include <SFML/Graphics.hpp>
-
-//#include "GameConstants.h"
-
 
 #include <iostream>
 using namespace std;
@@ -57,6 +53,9 @@ GameController::GameController() : gameIsRunning_(false)
     
     //create a renderer and initialize its window
     renderer_ = make_shared<Renderer>(appWindow_);
+    
+    //create event handler
+    event_ = make_shared<EventsHandler>();
 }
 
 void GameController::openApplicationWindow()
@@ -82,65 +81,74 @@ void GameController::displaySplashScreen()
 
 void GameController::playGame()
 {
-    
-    sf::Event extern_event;
-    
     //while the window is open
     while(appWindow_->getWindow()->isOpen())
     {
+        //cout << "looping" << endl;
+        
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
             centipede_->moveCentipede(5);
-            
         }
-        while(appWindow_->getWindow()->pollEvent(extern_event)){
-            //if the triggered event is 'close window' event
-            if((extern_event.type == sf::Event::Closed) || (extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Escape))
-            {
-                //close window
-                appWindow_->getWindow()->close();
-                //break out of the event monitoring loop,
-                break;
-            }//end if
-            
-            //if event noted is keyboard event and key pressed is space
-            if(extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Space){
-                //set gameRunning flag if it wasn't
-                if(!gameIsRunning_){
-                    gameIsRunning_ = true;
-                }
-                
-            }//end if
-            
-                if(extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Right)
-                {
-                    ant_->moveAnt(10,0);
-                }
-                if(extern_event.type == sf::Event::KeyPressed && extern_event.key.code == sf::Keyboard::Left)
-                {
-                    ant_->moveAnt(-10,0);
-                }
-            
-            //display the window
-            //appWindow_->display();
+        while(appWindow_->getWindow()->pollEvent(*(event_->getEvent()))){
+            //update objects based on inputs
+            updateGameObjects();
             appWindow_->getWindow()->clear();
         }//end event monitoring loop
          //decide on action based on status of game, running or not
            if(gameIsRunning_){
-                //....           
-                //clear the window
-                appWindow_->getWindow()->clear(Military_Green);
-                //Draw Field 
-                renderer_->drawField(field_);
-                //draw Ant
-                renderer_->drawAntOnField(ant_);
-                //draw Centipede
-                renderer_->drawCentipede(centipede_);
-                appWindow_->getWindow()->display();
-                //cout << counter++ << endl;;
-                //gameIsRunning_ = false;
+                drawGameObjects();
             }
-            //else{}
     }//main window closed
+}
+
+void GameController::drawGameObjects()
+{
+    //clear the window
+    appWindow_->getWindow()->clear(Military_Green);
+    //Draw Field 
+    renderer_->drawField(field_);
+    //draw Ant
+    renderer_->drawAntOnField(ant_);
+    //draw Centipede
+    renderer_->drawCentipede(centipede_);
+    
+    appWindow_->getWindow()->display();
+}
+
+void GameController::updateGameObjects()
+{
+    //process event
+    switch(event_->processEvent()){
+        case KeyCode::CLOSE_WINDOW:
+            //close window
+            if(!gameIsRunning_){
+            //appWindow_->getWindow()->close();
+            }
+            break;
+        case KeyCode::START_GAME:
+            //start_game
+            if(!gameIsRunning_){
+                gameIsRunning_ = true;
+            }
+            break;
+        case KeyCode::MOVE_ANT_LEFT:
+            //move ant left
+            ant_->moveAnt(-10,0);
+            break;
+            case KeyCode::MOVE_ANT_RIGHT:
+            //move ant right
+            ant_->moveAnt(10,0);
+            break;
+        case KeyCode::FIRE_BULLET:
+            //do nothing for now
+            break;
+        case KeyCode::IGNORE:
+            //
+            gameIsRunning_ = false;
+            //default:
+            //do nothing
+            //break;
+    }//end switch
 }

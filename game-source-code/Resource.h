@@ -13,9 +13,6 @@ using std::shared_ptr;
 using std::make_shared;
 using std::unique_ptr;
 
-//class CouldNotLoadFontFromFile {};
-//class CouldNotLOadTextureFromFile {};
-
 class Resource{
     
 public:
@@ -44,7 +41,5 @@ private:
     static shared_ptr<sf::Text>    versionText_;    
 
 };//end class definition
-
-//shared_ptr<sf::Sprite> Resource::sprite_ = 
 
 #endif

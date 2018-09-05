@@ -20,6 +20,7 @@ using std::make_shared;
 #include "Renderer.h"
 #include "Window.h"
 #include "ScreenSplasher.h"
+#include "EventsHandler.h"
 #include "Resource.h"
 
 class GameController{
@@ -35,7 +36,9 @@ public:
     void playGame();
     
 private:
-    
+    //private helper functions
+    void drawGameObjects();
+    void updateGameObjects();
     //maintains all the game objects in its memory
     shared_ptr<Field> field_;
     shared_ptr<Ant> ant_;
@@ -44,6 +47,8 @@ private:
     shared_ptr<Renderer> renderer_;
     shared_ptr<Window> appWindow_;
     shared_ptr<Resource> resource_;
+    shared_ptr<EventsHandler> event_;
+    //shared_ptr<EventsHandler> event_;
     //additional variables
     bool gameIsRunning_; //keeps record of game status
 };
