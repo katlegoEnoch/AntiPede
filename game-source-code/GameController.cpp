@@ -12,7 +12,6 @@ using namespace std;
 //window dimensions
 
 
-
 //function of constructor is to initialize the state of its data members
 GameController::GameController() : gameIsRunning_(false)
 {
@@ -94,7 +93,7 @@ void GameController::playGame()
         while(appWindow_->getWindow()->pollEvent(*(event_->getEvent()))){
             //update objects based on inputs
             updateGameObjects();
-            appWindow_->getWindow()->clear();
+            //appWindow_->getWindow()->clear();
         }//end event monitoring loop
          //decide on action based on status of game, running or not
            if(gameIsRunning_){
@@ -123,8 +122,8 @@ void GameController::updateGameObjects()
     switch(event_->processEvent()){
         case KeyCode::CLOSE_WINDOW:
             //close window
-            if(!gameIsRunning_){
-            //appWindow_->getWindow()->close();
+            if(gameIsRunning_){
+                //window not closing properly
             }
             break;
         case KeyCode::START_GAME:
@@ -132,6 +131,10 @@ void GameController::updateGameObjects()
             if(!gameIsRunning_){
                 gameIsRunning_ = true;
             }
+            break;
+        case KeyCode::END_GAME:
+            //close window
+            appWindow_->getWindow()->close();
             break;
         case KeyCode::MOVE_ANT_LEFT:
             //move ant left
@@ -147,8 +150,9 @@ void GameController::updateGameObjects()
         case KeyCode::IGNORE:
             //
             gameIsRunning_ = false;
-            //default:
+        default:
             //do nothing
-            //break;
+            gameIsRunning_ = true;
+            break;
     }//end switch
 }

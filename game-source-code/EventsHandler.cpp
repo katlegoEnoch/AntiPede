@@ -34,36 +34,38 @@ sf::Event::EventType  EventsHandler::keyPressed()
 
 KeyCode EventsHandler::processEvent()
 {
+    KeyCode code;
+    
     if(extern_event_->type == windowClosed()){
         //close window
-        return KeyCode::CLOSE_WINDOW;
+        code = KeyCode::CLOSE_WINDOW;
     }
     
     else if(extern_event_->type == keyPressed()){
         switch(extern_event_->key.code){
             case sf::Keyboard::Escape:
-                return KeyCode::CLOSE_WINDOW;
-                cout << "Closing down" << endl;
+                code = KeyCode::END_GAME;
                 break;
             case sf::Keyboard::Space:
                 //start game
-                return KeyCode::START_GAME;
+                code =  KeyCode::START_GAME;
                 break;
             case sf::Keyboard::Left:
                 //move player left
-                return KeyCode::MOVE_ANT_LEFT;
+                code = KeyCode::MOVE_ANT_LEFT;
                 break;
             case sf::Keyboard::Right:
                 //move player right
-                return KeyCode::MOVE_ANT_RIGHT;
+                code = KeyCode::MOVE_ANT_RIGHT;
                 break;
             case sf::Keyboard::Up:
                 //fire bullet from gun
-                return KeyCode::FIRE_BULLET;
+                code = KeyCode::FIRE_BULLET;
                 break;
             default:
-                return KeyCode::IGNORE;
+                code = KeyCode::IGNORE;
                 break;
         }//end switch
     }
+    return code;
 }

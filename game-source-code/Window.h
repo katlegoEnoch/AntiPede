@@ -8,16 +8,16 @@
 
 /*interface between window and program*/
 
-//#include <memory>
-//using std::shared_ptr;
-//using std::make_shared;
+#include <memory>
+using std::shared_ptr;
+using std::make_shared;
 
 #include <SFML/Graphics.hpp>
 
 class Window{
 public:
     //create a window with specific dimensions
-    Window(const int&, const int&);
+    Window(const size_t&, const size_t&);
     //get screen dimensions
     size_t windowWidth() const {return window_width_;}
     size_t windowHeight() const {return window_height_;}

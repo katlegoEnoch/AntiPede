@@ -11,7 +11,7 @@ using namespace std;
 
 auto window = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "ANTIpede");
 
-Window::Window(const int& width, const int& height) : window_width_{width}, window_height_{height}
+Window::Window(const size_t& width, const size_t& height) : window_width_{width}, window_height_{height}
 {
     window_ = &window;
 }

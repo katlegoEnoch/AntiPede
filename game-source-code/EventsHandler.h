@@ -16,6 +16,7 @@ enum class KeyCode
 {
     CLOSE_WINDOW,
     START_GAME,
+    END_GAME,
     MOVE_ANT_LEFT,
     MOVE_ANT_RIGHT,
     FIRE_BULLET,

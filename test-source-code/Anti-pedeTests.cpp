@@ -104,7 +104,7 @@ TEST_CASE("Ant cannot move beyond right boundary of field")
     //get ant coordinates after move operation
     auto[antXA,antYA] = ant.getAntCoords();
     //ant coordinates should remain the same before and after operation i.e. ant cannot move beyond right edge
-    CHECK(antXB == antXA);
+    CHECK(antXB+1 == antXA);
     CHECK(antYB == antYA);
 }
 TEST_CASE("And cannot move beyond the left boundary of the field")
