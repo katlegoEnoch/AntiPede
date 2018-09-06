@@ -17,8 +17,6 @@
 class AntCoordinatesOutOfFieldBounds {};
 class AntSizeBeyondFieldBounds{};
 
-
-
 class Ant{
     
 public:

@@ -5,9 +5,6 @@
 
 #include "GameController.h"
 
-#include <iostream>
-using namespace std;
-
 /*Ran into scope issues and window was only open in the function in which the renderWindow function is called*/
 //window dimensions
 
@@ -62,9 +59,9 @@ void GameController::openApplicationWindow()
     
     //Attach a window to Controller's appWindow pointer
     //synchronize frame-rate to monitor's frame rate
-    appWindow_->getWindow()->setVerticalSyncEnabled(true);
+    appWindow_->syncWindowToMonitor();
     //clear the window
-    appWindow_->getWindow()->clear(sf::Color::Black);
+    appWindow_->clearWindow(Colour::BLACK_);
     //return controller to caller
     
     return;
@@ -81,19 +78,16 @@ void GameController::displaySplashScreen()
 void GameController::playGame()
 {
     //while the window is open
-    while(appWindow_->getWindow()->isOpen())
+    while(appWindow_->windowIsOpen())
     {
-        //cout << "looping" << endl;
-        
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
             centipede_->moveCentipede(5);
         }
-        while(appWindow_->getWindow()->pollEvent(*(event_->getEvent()))){
+        while(appWindow_->queryEvent(*(event_->getEvent()))){
             //update objects based on inputs
             updateGameObjects();
-            //appWindow_->getWindow()->clear();
         }//end event monitoring loop
          //decide on action based on status of game, running or not
            if(gameIsRunning_){
@@ -105,7 +99,7 @@ void GameController::playGame()
 void GameController::drawGameObjects()
 {
     //clear the window
-    appWindow_->getWindow()->clear(Military_Green);
+    appWindow_->clearWindow(Colour::M_GREEN_);
     //Draw Field 
     renderer_->drawField(field_);
     //draw Ant
@@ -113,7 +107,7 @@ void GameController::drawGameObjects()
     //draw Centipede
     renderer_->drawCentipede(centipede_);
     
-    appWindow_->getWindow()->display();
+    appWindow_->showContents();
 }
 
 void GameController::updateGameObjects()
@@ -134,7 +128,7 @@ void GameController::updateGameObjects()
             break;
         case KeyCode::END_GAME:
             //close window
-            appWindow_->getWindow()->close();
+            appWindow_->shutDownWindow();
             break;
         case KeyCode::MOVE_ANT_LEFT:
             //move ant left

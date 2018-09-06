@@ -22,7 +22,7 @@ public:
     Field(const int&, const int&);
     //Field object can be queryied what its boundary co-ordinates are
     tuple<int,int> fieldBoundary() const;
-    
+    //accessors
 private:
     //field has a boundary
     int boundary_x;

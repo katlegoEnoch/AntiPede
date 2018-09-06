@@ -5,9 +5,6 @@
 
 #include "ScreenSplasher.h"
 
-#include <iostream>
-using namespace std;
-
 ScreenSplasher::ScreenSplasher(shared_ptr<Window> appWindow,shared_ptr<Resource> resource) :
 window_{appWindow},resource_{resource}
 {}

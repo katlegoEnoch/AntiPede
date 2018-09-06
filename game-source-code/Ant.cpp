@@ -3,7 +3,6 @@
 //Date:     01 September 2018
 //Details:  
 
-
 #include "Ant.h"
 
 Ant::Ant(const int& antX, const int& antY, const double& ant_size) : antX_{antX}, antY_{antY}, antSize_{ant_size}
@@ -28,7 +27,7 @@ Ant::Ant(const int& antX, const int& antY, const double& ant_size) : antX_{antX}
 void Ant::moveAnt(int deltaX, int deltaY)
 {
    auto left_edge = fieldWidth - 30;
-    auto right_edge = 10;
+   auto right_edge = 10;
     
     //if movement is to the right
     if(deltaX > 0){

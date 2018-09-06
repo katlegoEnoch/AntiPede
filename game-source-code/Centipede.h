@@ -12,7 +12,7 @@
 using std::shared_ptr;
 
 #include <vector>
-using namespace std;
+using std::vector;
 
 /*The centipede can be responsible for controlling its segments'movement. The segments move themselves
  but the centipede controls the movement.*/

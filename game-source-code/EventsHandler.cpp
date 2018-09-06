@@ -5,9 +5,6 @@
 
 #include "EventsHandler.h"
 
-#include <iostream>
-using namespace std;
-
 shared_ptr<sf::Event> EventsHandler::extern_event_ = NULL;
 
 EventsHandler::EventsHandler()

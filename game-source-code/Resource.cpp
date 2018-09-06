@@ -4,8 +4,7 @@
 //Details:   Definition of Resource members
 
 #include "Resource.h"
-#include <iostream>
-using namespace std;
+
 
 ////////////////////////////////////////////////////////////////////
 //type ClassName::static_data = NULL
