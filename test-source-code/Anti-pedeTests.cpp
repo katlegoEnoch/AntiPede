@@ -3,13 +3,15 @@
 //Date:     02 September 2018
 //Details:  
 
-#include "Field.h"
-#include "Ant.h"
-#include "Segment.h"
-
-
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
+
+#include "../game-source-code/Field.h"
+#include "../game-source-code/Ant.h"
+#include "../game-source-code/Segment.h"
+
+#include <iostream>
+using namespace std;
 
 ////////////////////FIELD INITIALIZATION TESTS///////////////////////////////////
 
@@ -23,8 +25,8 @@ TEST_CASE("Field with valid boundaries is initiliazed correctly")
     auto testField = Field{fieldWidth-1, fieldHeight-1};
     auto[testX,testY] = testField.fieldBoundary();
     //compare against known values
-    CHECK(testX == 799);
-    CHECK(testY == 599);
+    CHECK(testX == fieldWidth-1);
+    CHECK(testY == fieldHeight-1);
 }
 
 
@@ -123,29 +125,29 @@ TEST_CASE("And cannot move beyond the left boundary of the field")
 ///////////////////////////////////SEGMENT-INITIALIZATION-TESTS////////////////////////////////////////////////////
 TEST_CASE("Segment With invalid field coordinates cannot be constructed")
 {
-    CHECK_THROWS_AS(Segment(fieldWidth+1,fieldHeight+1,10),SegmentHasInvalidFieldCoordinates);
+    CHECK_THROWS_AS(Segment(fieldWidth+1,fieldHeight+1,10.f,Direction::EAST),SegmentHasInvalidFieldCoordinates);
 }
 
 TEST_CASE("Segment with invalid x field coordinate cannot be constructed")
 {
-    CHECK_THROWS_AS(Segment(fieldWidth+1,fieldHeight,10),SegmentHasInvalidFieldCoordinates);
+    CHECK_THROWS_AS(Segment(fieldWidth+1,fieldHeight,10.f,Direction::EAST),SegmentHasInvalidFieldCoordinates);
 }
 TEST_CASE("Segment with invalid y field coordinate cannot be constructed")
 {
-    CHECK_THROWS_AS(Segment(fieldWidth,fieldHeight+1,10),SegmentHasInvalidFieldCoordinates);
+    CHECK_THROWS_AS(Segment(fieldWidth,fieldHeight+1,10.f,Direction::EAST),SegmentHasInvalidFieldCoordinates);
 }
 
 TEST_CASE("Segment with large radius cannot be constructed")
 {
-    auto invalid_segment_radius = 100;
-    CHECK_THROWS_AS(Segment(fieldWidth,fieldHeight,invalid_segment_radius),SegmentRadiusBeyondFieldBounds);
+    auto invalid_segment_radius = 100.f;
+    CHECK_THROWS_AS(Segment(fieldWidth,fieldHeight,invalid_segment_radius,Direction::EAST),SegmentRadiusBeyondFieldBounds);
 }
 
 ////////////////////////////////////////SEGMENT MOVEMENT TESTS/////////////////////////////////////
 TEST_CASE("Segment can be moved by one unit to right if not positioned on right edge")
 {
     //place segment at any location but right edge
-    auto segment = Segment{30,30,10.f};
+    auto segment = Segment{30,30,10.f,Direction::EAST};
     //get coordinates of segment before movement
     auto[segXB,segYB] = segment.getSegmentCoords();
     //move segment by one unit to the right
@@ -161,7 +163,7 @@ TEST_CASE("Segment can be moved by one unit to right if not positioned on right 
 TEST_CASE("Segment can be moved by one unit to left if not positioned on left edge")
 {
     //place segment at any location but right edge
-    auto segment = Segment{50,50,10.f};
+    auto segment = Segment{50,50,10.f,Direction::EAST};
     //get coordinates of segment before movement
     auto[segXB,segYB] = segment.getSegmentCoords();
     //move segment by one unit to the right
@@ -179,7 +181,7 @@ TEST_CASE("Segment can be moved by one unit to left if not positioned on left ed
 TEST_CASE("Segment cannot move beyond right edge")
 {
     //position a segment on the top row right edge
-    auto segment = Segment{fieldWidth-10,30, 10.f};
+    auto segment = Segment{fieldWidth-10,30, 10.f,Direction::EAST};
     //get segment coordinates before movement operation
     auto[segXB,segYB] = segment.getSegmentCoords();
     //attempt to move segment by one unit beyond right edge
@@ -194,7 +196,7 @@ TEST_CASE("Segment cannot move beyond right edge")
 TEST_CASE("Segment cannot move beyond left edge")
 {
     //position a segment on the top row left edge
-    auto segment = Segment{10,30, 10.f};
+    auto segment = Segment{10,30, 10.f,Direction::EAST};
     //get segment coordinates before movement operation
     auto[segXB,segYB] = segment.getSegmentCoords();
     //attempt to move segment by one unit beyond left edge
@@ -209,7 +211,7 @@ TEST_CASE("Segment cannot move beyond left edge")
 TEST_CASE("Segment moves down by one row when moving from right edge")
 {
     //position a segment on the top row right edge
-    auto segment = Segment{fieldWidth-10,30, 10.f};
+    auto segment = Segment{fieldWidth-10,30, 10.f,Direction::EAST};
     //get segment coordinates before movement operation
     auto[segXB,segYB] = segment.getSegmentCoords();
     //attempt to move segment by one unit beyond right edge
@@ -225,7 +227,7 @@ TEST_CASE("Segment moves down by one row when moving from right edge")
 TEST_CASE("Segment moves down by one row when moving from edge")
 {
     //position a segment on the top row left edge
-    auto segment = Segment{10,30, 10.f};
+    auto segment = Segment{10,30, 10.f,Direction::EAST};
     //get segment coordinates before movement operation
     auto[segXB,segYB] = segment.getSegmentCoords();
     //attempt to move segment by one unit beyond left edge
@@ -236,6 +238,8 @@ TEST_CASE("Segment moves down by one row when moving from edge")
     CHECK(segXA == segXB);
     //segment should move down by one row
     CHECK(segYA == segYB+1);
+    
+    system("pause");
 }
 
 
