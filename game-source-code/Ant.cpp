@@ -5,6 +5,9 @@
 
 #include "Ant.h"
 
+#include <iostream>
+using namespace std;
+
 shared_ptr<Gun> Ant::gun_ = NULL;
 
 Ant::Ant(const int& antX, const int& antY, const double& ant_size) : antX_{antX}, antY_{antY}, antSize_{ant_size}
@@ -67,5 +70,16 @@ void Ant::loadWeapon()
 {
     //call the gun constructor to place gun on top of ant
     //Gun gun(antX_+(antSize_/2),antY_);
+}
+
+//Ant has a gun which has a bullet
+void Ant::releaseBullet()
+{
+    //compute gun's current location when shot is fired
+    auto[gunX,gunY] = gun_->getGunCoords();
+    //construct a bullet object at gun's current location
+    make_shared<Bullet>(gunX,gunY);
+    
+    cout << gunX << " "<< gunY << endl;
 }
 

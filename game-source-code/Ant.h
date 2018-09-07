@@ -38,6 +38,8 @@ public:
     void loadWeapon();
     //access the ant's gun
     shared_ptr<Gun> getGun() const { return gun_;}
+    //
+    void releaseBullet();
 
     
 private:

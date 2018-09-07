@@ -12,11 +12,11 @@ using namespace std;
 class Bullet{
     
 public:
-    //create bullet at specific location on the grid
+    //Bullet object is created whenever player shoots
     Bullet(const int&, const int&);
-    tuple<int,int> getBulletCoords() const;
+    tuple<int,int> getBulletCoords() const {return {bulletX_,bulletY_};};
     //fire bullet at specific speed in specific direction
-    //void fireBullet(const int&, const Direction&);
+    
     
 private:
     int bulletX_;
