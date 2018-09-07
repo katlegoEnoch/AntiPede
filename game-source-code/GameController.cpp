@@ -17,15 +17,14 @@ GameController::GameController() : gameIsRunning_(false)
     //initialize field
     field_ = make_shared<Field>(fieldWidth,fieldHeight);
     
-    //initialize Ant
+    //initialize Ant, when Ant constructor is called, gun is automatically created
+    //Ant has handle to its gun
     auto ant_size = 30;
     auto ant_x = static_cast<int>((fieldWidth/2)-20);
     auto ant_y = fieldHeight - (ant_size+10);
     ant_ = make_shared<Ant>(ant_x,ant_y,ant_size);
     
     //
-    //call the gun constructor to place gun on top of ant
-    gun_ = make_shared<Gun>(ant_x+((ant_size-8)/2),ant_y-10);
     
     //construct Centipede with 10 segments
     auto numberOfSegments = 10;
@@ -111,7 +110,8 @@ void GameController::drawGameObjects()
     //draw Ant
     renderer_->drawAntOnField(ant_);
     //draw Gun
-    renderer_->drawGun(gun_);
+    //Gun is accessed through Ant
+    renderer_->drawGun(ant_->getGun());
     //draw Centipede
     renderer_->drawCentipede(centipede_);
     

@@ -5,6 +5,8 @@
 
 #include "Ant.h"
 
+shared_ptr<Gun> Ant::gun_ = NULL;
+
 Ant::Ant(const int& antX, const int& antY, const double& ant_size) : antX_{antX}, antY_{antY}, antSize_{ant_size}
 {
      //if either boundary is beyond limits of the screen...
@@ -22,8 +24,12 @@ Ant::Ant(const int& antX, const int& antY, const double& ant_size) : antX_{antX}
         throw AntSizeBeyondFieldBounds{};
     }
         
+    //initialize the state of Ant's gun
+    //call the gun constructor to place gun on top of ant
+    gun_ = make_shared<Gun>(antX_+((antSize_-8)/2),antY_-10);
 }
 
+//when the ant moves its gun must follow..
 void Ant::moveAnt(int deltaX, int deltaY)
 {
    auto left_edge = fieldWidth - (10+antSize_);
@@ -37,24 +43,29 @@ void Ant::moveAnt(int deltaX, int deltaY)
         else{
         //change ant's x position by deltaX
         antX_+= deltaX;
+        //gun's position must also change by deltaX
+        gun_->moveGun(deltaX,0);
         }
     }//end if
     else{//if movement is to the left
         if(antX_ == right_edge){
             antX_ = antX_;
         }
-        else
+        else{
             antX_ += deltaX;
-    }
-    
+            //gun must follow ant
+           gun_->moveGun(deltaX,0);
+        }
+    }//end else
     //change ant's y position by deltaY
     antY_ += deltaY;
+    //gun follows ant's movement
+    gun_->moveGun(0,deltaY);
 }
-
 //initializes the gun
 void Ant::loadWeapon()
 {
     //call the gun constructor to place gun on top of ant
-    Gun gun(antX_+(antSize_/2),antY_);
+    //Gun gun(antX_+(antSize_/2),antY_);
 }
 

@@ -13,9 +13,11 @@ tuple<int,int> Gun::getGunCoords() const
     return {gun_x_,gun_y_};
 }
 
-void Gun::followAnt()
+void Gun::moveGun(const int& deltaX, const int& deltaY)
 {
-    
+    //change gun location by specified amount
+    gun_x_ += deltaX;
+    gun_y_ += deltaY;
 }
 
 void Gun::fireGun()

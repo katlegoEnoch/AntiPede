@@ -36,6 +36,8 @@ public:
     //the guns's location is always relative to the ant
     //initializes the ant's weapon - gun
     void loadWeapon();
+    //access the ant's gun
+    shared_ptr<Gun> getGun() const { return gun_;}
 
     
 private:
@@ -45,8 +47,7 @@ private:
     //the ant, modelled as a square, has a size which is simply the length of a side
     double antSize_;
     //ant carries a gun
-    shared_ptr<Gun> gun_;
-
+    static shared_ptr<Gun> gun_;
 };
 
 #endif

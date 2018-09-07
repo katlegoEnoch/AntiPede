@@ -20,6 +20,8 @@ public:
     tuple<int,int> getGunCoords() const;
     //gun's movement follows that of the ant
     void followAnt();
+    void moveGun(const int&, const int&);
+    
 private:
     //a gun has a set of bullets in its memory
     int gun_x_;
