@@ -51,9 +51,6 @@ void Renderer::drawSegmentOnField(const Segment& seg)
 
 void Renderer::drawCentipede(const shared_ptr<Centipede> centi)
 {
-    //assign current window to Centipede's renderer
-    //centi->setRenderer(window_->getWindow());
-    
     //command all segments to draw themselves
     for(size_t loc = 0; loc < centi->numberOfSegments();loc++){
         //command centipede's render to draw current segment
@@ -71,4 +68,18 @@ void Renderer::drawGun(const shared_ptr<Gun> gun)
     gunShape.setFillColor(SILVER);
     
     window_->getWindow()->draw(gunShape);
+}
+
+
+void Renderer::drawBullet(const Bullet& bullet)
+{
+    sf::CircleShape bulletShape(3);
+    bulletShape.setFillColor(TURQUOISE);
+    auto[bulX,bulY] = bullet.getBulletCoords();
+    bulletShape.setPosition(bulX,bulY);
+    
+    window_->getWindow()->draw(bulletShape);
+    
+    //return control to caller
+    return;
 }

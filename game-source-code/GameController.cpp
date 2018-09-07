@@ -85,6 +85,8 @@ void GameController::playGame()
     //while the window is open
     while(appWindow_->windowIsOpen())
     {
+        //keep updating bullet's position once its fired
+        ant_->fireBullet();
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
@@ -114,7 +116,8 @@ void GameController::drawGameObjects()
     renderer_->drawGun(ant_->getGun());
     //draw Centipede
     renderer_->drawCentipede(centipede_);
-    
+    //draw Bullet, accessed through its owner ant
+    renderer_->drawBullet(ant_->getBullet());
     appWindow_->showContents();
 }
 
@@ -150,7 +153,6 @@ void GameController::updateGameObjects()
             //do nothing for now
             //create bullet object
             ant_->setBullet(ant_->releaseBullet());
-            
             break;
         case KeyCode::IGNORE:
             //

@@ -40,11 +40,13 @@ public:
     //access the ant's gun
     shared_ptr<Gun> getGun() const { return gun_;}
     //returns pointer to object created when shot is fired
-    shared_ptr<Bullet> releaseBullet();
+    Bullet releaseBullet();
     //access to bullet
-    shared_ptr<Bullet> getBullet() const {return bullet_;}
+    Bullet getBullet() const {return bullet_;}
     //write to Ant's data member
-    void setBullet(const shared_ptr<Bullet>&);
+    void setBullet(const Bullet&);
+    //ant can pass a message onto its bullet to move
+    void fireBullet();
     
 private:
     //an ant has a position on the field
@@ -54,7 +56,8 @@ private:
     double antSize_;
     //ant carries a gun
     static shared_ptr<Gun>       gun_;
-    static shared_ptr<Bullet>    bullet_;
+    //static shared_ptr<Bullet>    bullet_;
+    static Bullet  bullet_;
 };
 
 #endif

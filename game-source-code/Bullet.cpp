@@ -14,6 +14,22 @@ Bullet::Bullet(const int& bulletX, const int& bulletY) : bulletX_{bulletX}, bull
 
 void Bullet::moveBullet(const int& speed,const Direction& dir)
 {
-    cout << "Moving bullet upward" << endl;
+    switch(dir){
+        case Direction::NORTH:
+            bulletY_ -= speed;
+            break;
+        case Direction::EAST:
+            bulletX_ += speed;
+            break;
+        case Direction::SOUTH:
+            bulletY_ += speed;
+            break;
+        case Direction::WEST:
+            bulletX_ -= speed;
+            break;
+        default:
+            //do nothing for now
+            break;
+    }//end switch
 }
 

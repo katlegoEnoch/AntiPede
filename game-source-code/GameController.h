@@ -23,8 +23,8 @@ using std::make_shared;
 #include "EventsHandler.h"
 #include "Resource.h"
 //controller needs direc access to bullet
-//how about accessing the bullet throught the ant?
-#include "Bullet.h"
+//how about accessing the bullet throught the ant? That's the way
+//#include "Bullet.h"
 
 class GameController{
     
@@ -51,7 +51,6 @@ private:
     shared_ptr<Window> appWindow_;
     shared_ptr<Resource> resource_;
     shared_ptr<EventsHandler> event_;
-    shared_ptr<Bullet> bullet_;
     //additional variables
     bool gameIsRunning_; //keeps record of game status
 };

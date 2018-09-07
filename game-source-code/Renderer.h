@@ -26,11 +26,11 @@ public:
     void drawAntOnField(const shared_ptr<Ant>);
     void drawCentipede(const shared_ptr<Centipede>);
     void drawGun(const shared_ptr<Gun>);
+    void drawBullet(const Bullet&);//had to change this to a constant reference, doesn't work well with pointers
     
 private:
     //not required be external objects, helper to drawCentipede member
     void drawSegmentOnField(const Segment& );//had to be passed by reference
-
 
     //has window that is draws on
     shared_ptr<Window> window_;

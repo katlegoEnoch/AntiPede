@@ -10,7 +10,7 @@
 using namespace std;
 
 shared_ptr<Gun>    Ant::gun_ = NULL;
-shared_ptr<Bullet> Ant::bullet_ = NULL;
+Bullet Ant::bullet_{0,0};
 Ant::Ant(const int& antX, const int& antY, const double& ant_size) : antX_{antX}, antY_{antY}, antSize_{ant_size}
 {
      //if either boundary is beyond limits of the screen...
@@ -74,24 +74,28 @@ void Ant::loadWeapon()
 }
 
 //Ant has a gun which has a bullet
-shared_ptr<Bullet> Ant::releaseBullet()
+Bullet Ant::releaseBullet()
 {
     //compute gun's current location when shot is fired
     auto[gunX,gunY] = gun_->getGunCoords();
     //construct a bullet object at gun's current location
-    auto bullet = make_shared<Bullet>(gunX,gunY);
-    
+    auto bullet = Bullet(gunX,gunY);
+    //assign bullet to private member
+    setBullet(bullet);
     cout << "Bullet created at: " << gunX << " " << gunY << endl;
-    
-    //at the moment a Bullet is created it should start moving upward
-    bullet->moveBullet(5,Direction::NORTH);
     
     return bullet;
 }
 
-void Ant::setBullet(const shared_ptr<Bullet>& bullet)
+void Ant::setBullet(const Bullet& bullet)
 {
     //set Ant's bullet to passed in pointer
     bullet_ = bullet;
+}
+
+void Ant::fireBullet()
+{
+    //at the moment a Bullet is created it should start moving upward
+    bullet_.moveBullet(5,Direction::NORTH);
 }
 
