@@ -16,6 +16,7 @@ using std::make_shared;
 #include "Field.h"
 #include "constants.h"
 #include "Gun.h"
+#include "Bullet.h"
 
 class AntCoordinatesOutOfFieldBounds {};
 class AntSizeBeyondFieldBounds{};
@@ -38,9 +39,12 @@ public:
     void loadWeapon();
     //access the ant's gun
     shared_ptr<Gun> getGun() const { return gun_;}
-    //
-    void releaseBullet();
-
+    //returns pointer to object created when shot is fired
+    shared_ptr<Bullet> releaseBullet();
+    //access to bullet
+    shared_ptr<Bullet> getBullet() const {return bullet_;}
+    //write to Ant's data member
+    void setBullet(const shared_ptr<Bullet>&);
     
 private:
     //an ant has a position on the field
@@ -49,7 +53,8 @@ private:
     //the ant, modelled as a square, has a size which is simply the length of a side
     double antSize_;
     //ant carries a gun
-    static shared_ptr<Gun> gun_;
+    static shared_ptr<Gun>       gun_;
+    static shared_ptr<Bullet>    bullet_;
 };
 
 #endif

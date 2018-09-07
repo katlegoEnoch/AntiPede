@@ -149,7 +149,7 @@ void GameController::updateGameObjects()
         case KeyCode::FIRE_BULLET:
             //do nothing for now
             //create bullet object
-            ant_->releaseBullet();
+            ant_->setBullet(ant_->releaseBullet());
             
             break;
         case KeyCode::IGNORE:

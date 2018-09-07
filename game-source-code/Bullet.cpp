@@ -11,3 +11,9 @@ Bullet::Bullet(const int& bulletX, const int& bulletY) : bulletX_{bulletX}, bull
     //we need to know Gun's coordinates
 }
 
+
+void Bullet::moveBullet(const int& speed,const Direction& dir)
+{
+    cout << "Moving bullet upward" << endl;
+}
+

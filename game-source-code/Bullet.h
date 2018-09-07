@@ -7,7 +7,10 @@
 #define BULLET_H
 
 #include <tuple>
+#include <iostream>
 using namespace std;
+
+#include "constants.h"
 
 class Bullet{
     
@@ -16,7 +19,7 @@ public:
     Bullet(const int&, const int&);
     tuple<int,int> getBulletCoords() const {return {bulletX_,bulletY_};};
     //fire bullet at specific speed in specific direction
-    
+    void moveBullet(const int&,const Direction&);
     
 private:
     int bulletX_;
