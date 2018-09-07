@@ -18,12 +18,18 @@ GameController::GameController() : gameIsRunning_(false)
     field_ = make_shared<Field>(fieldWidth,fieldHeight);
     
     //initialize Ant
+    auto ant_size = 30;
     auto ant_x = static_cast<int>((fieldWidth/2)-20);
-    auto ant_y = fieldHeight - 30;
-    ant_ = make_shared<Ant>(ant_x,ant_y,20);
+    auto ant_y = fieldHeight - (ant_size+10);
+    ant_ = make_shared<Ant>(ant_x,ant_y,ant_size);
+    
+    //
+    //call the gun constructor to place gun on top of ant
+    gun_ = make_shared<Gun>(ant_x+((ant_size-8)/2),ant_y-10);
     
     //construct Centipede with 10 segments
-    centipede_ = make_shared<Centipede>(10);
+    auto numberOfSegments = 10;
+    centipede_ = make_shared<Centipede>(numberOfSegments);
     //Centipede always starts at top left of field
     auto seg_x = 11;
     auto seg_y = 10;
@@ -104,6 +110,8 @@ void GameController::drawGameObjects()
     renderer_->drawField(field_);
     //draw Ant
     renderer_->drawAntOnField(ant_);
+    //draw Gun
+    renderer_->drawGun(gun_);
     //draw Centipede
     renderer_->drawCentipede(centipede_);
     

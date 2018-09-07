@@ -61,3 +61,14 @@ void Renderer::drawCentipede(const shared_ptr<Centipede> centi)
         drawSegmentOnField(centi->getSegmentAt(loc));
     }
 }
+
+void Renderer::drawGun(const shared_ptr<Gun> gun)
+{
+    sf::RectangleShape gunShape;
+    gunShape.setSize(sf::Vector2f(10,10));
+    auto[gunX,gunY] = gun->getGunCoords();
+    gunShape.setPosition(gunX,gunY);
+    gunShape.setFillColor(SILVER);
+    
+    window_->getWindow()->draw(gunShape);
+}

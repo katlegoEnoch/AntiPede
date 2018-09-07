@@ -9,7 +9,7 @@
 //static data member
 sf::RenderWindow* Window::window_ = NULL;
 
- auto window = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "ANTIpede");
+auto window = sf::RenderWindow(sf::VideoMode(fieldWidth,fieldHeight,32), "ANTIpede");
 
 Window::Window(const size_t& width, const size_t& height) : window_width_{width}, window_height_{height}
 {

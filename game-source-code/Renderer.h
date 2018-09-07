@@ -14,6 +14,7 @@
 #include "Segment.h"
 #include "Centipede.h"
 #include "Window.h"
+#include "Gun.h"
 
 class Renderer{
     
@@ -24,6 +25,7 @@ public:
     void drawField(const shared_ptr<Field>);
     void drawAntOnField(const shared_ptr<Ant>);
     void drawCentipede(const shared_ptr<Centipede>);
+    void drawGun(const shared_ptr<Gun>);
     
 private:
     //not required be external objects, helper to drawCentipede member

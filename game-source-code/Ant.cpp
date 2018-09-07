@@ -26,7 +26,7 @@ Ant::Ant(const int& antX, const int& antY, const double& ant_size) : antX_{antX}
 
 void Ant::moveAnt(int deltaX, int deltaY)
 {
-   auto left_edge = fieldWidth - 30;
+   auto left_edge = fieldWidth - (10+antSize_);
    auto right_edge = 10;
     
     //if movement is to the right
@@ -49,5 +49,12 @@ void Ant::moveAnt(int deltaX, int deltaY)
     
     //change ant's y position by deltaY
     antY_ += deltaY;
+}
+
+//initializes the gun
+void Ant::loadWeapon()
+{
+    //call the gun constructor to place gun on top of ant
+    Gun gun(antX_+(antSize_/2),antY_);
 }
 

@@ -48,6 +48,7 @@ private:
     shared_ptr<Window> appWindow_;
     shared_ptr<Resource> resource_;
     shared_ptr<EventsHandler> event_;
+    shared_ptr<Gun> gun_;
     //shared_ptr<EventsHandler> event_;
     //additional variables
     bool gameIsRunning_; //keeps record of game status
