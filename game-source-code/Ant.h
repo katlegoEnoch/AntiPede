@@ -45,9 +45,7 @@ public:
     Bullet getBullet() const {return bullet_;}
     //write to Ant's data member
     void setBullet(const Bullet&);
-    //ant can pass a message onto its bullet to move
-    void fireBullet();
-    
+        
 private:
     //an ant has a position on the field
     int antX_;
@@ -56,7 +54,7 @@ private:
     double antSize_;
     //ant carries a gun
     static shared_ptr<Gun>       gun_;
-    //static shared_ptr<Bullet>    bullet_;
+    //static shared_ptr<Bullet>    bullet_
     static Bullet  bullet_;
 };
 

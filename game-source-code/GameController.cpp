@@ -5,6 +5,9 @@
 
 #include "GameController.h"
 
+#include <iostream>
+using namespace std;
+
 /*Ran into scope issues and window was only open in the function in which the renderWindow function is called*/
 //window dimensions
 
@@ -57,6 +60,7 @@ GameController::GameController() : gameIsRunning_(false)
     
     //create event handler
     event_ = make_shared<EventsHandler>();
+    
 }
 
 void GameController::openApplicationWindow()
@@ -85,8 +89,11 @@ void GameController::playGame()
     //while the window is open
     while(appWindow_->windowIsOpen())
     {
-        //keep updating bullet's position once its fired
-        ant_->fireBullet();
+        //fire from here
+        if(!bullets_.empty()){
+            fireBullet();
+        }
+
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
@@ -117,7 +124,7 @@ void GameController::drawGameObjects()
     //draw Centipede
     renderer_->drawCentipede(centipede_);
     //draw Bullet, accessed through its owner ant
-    renderer_->drawBullet(ant_->getBullet());
+    renderer_->drawBullets(bullets_);
     appWindow_->showContents();
 }
 
@@ -153,6 +160,8 @@ void GameController::updateGameObjects()
             //do nothing for now
             //create bullet object
             ant_->setBullet(ant_->releaseBullet());
+            //add bullet to Controller's memory
+            addBulletToController(ant_->releaseBullet());
             break;
         case KeyCode::IGNORE:
             //
@@ -163,3 +172,27 @@ void GameController::updateGameObjects()
             break;
     }//end switch
 }
+
+
+void GameController::addBulletToController(const Bullet& bullet)
+{
+    bullets_.push_back(bullet);
+    
+    //let's fire from here, it must fire that same bullet that it created
+    //ant_->fireBullet();
+    
+}
+
+//how about implementing the fire bullet function on the controller and not the ant?
+//if that was the case then...
+void GameController::fireBullet()
+{
+    //at the moment a Bullet is created it should start moving upward
+    for(size_t loc = 0; loc < bullets_.size();loc++){
+        //move the corresponding bullet
+        bullets_.at(loc).moveBullet(5,Direction::NORTH);
+    }
+
+}
+//yes it worked! So the ant and the controller pretty much share the responsibility of the bullet's behaviour
+//the bullet is an inanimate object and does not control itself, the ant controls the bullet.

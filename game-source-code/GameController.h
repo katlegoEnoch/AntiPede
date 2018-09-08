@@ -43,7 +43,9 @@ public:
     //play the game
     void playGame();
     //maintain set of bullets in memory
-    void addBulletToAnt();
+    void addBulletToController(const Bullet&);
+    //ant can pass a message onto its bullet to move
+    void fireBullet();
     
 private:
     //private helper functions

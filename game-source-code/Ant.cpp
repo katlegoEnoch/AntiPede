@@ -86,11 +86,4 @@ void Ant::setBullet(const Bullet& bullet)
     bullet_ = bullet;
 }
 
-void Ant::fireBullet()
-{
-    //at the moment a Bullet is created it should start moving upward
-    bullet_.moveBullet(5,Direction::NORTH);
-    auto[x,y] = bullet_.getBulletCoords();
-    cout << x << " - " << y << endl;
-}
 

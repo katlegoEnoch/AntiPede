@@ -71,15 +71,19 @@ void Renderer::drawGun(const shared_ptr<Gun> gun)
 }
 
 
-void Renderer::drawBullet(const Bullet& bullet)
+void Renderer::drawBullets(const vector<Bullet> bullets)
 {
-    sf::CircleShape bulletShape(3);
-    bulletShape.setFillColor(TURQUOISE);
-    auto[bulX,bulY] = bullet.getBulletCoords();
-    bulletShape.setPosition(bulX,bulY);
+    for(size_t bullet = 0; bullet < bullets.size(); bullet++)
+    {
+       sf::CircleShape bulletShape(3);
+       bulletShape.setFillColor(TURQUOISE);
+       auto[bulX,bulY] = bullets.at(bullet).getBulletCoords();
+       bulletShape.setPosition(bulX,bulY);
     
-    window_->getWindow()->draw(bulletShape);
-    
+       window_->getWindow()->draw(bulletShape);
+ 
+    }
+        
     //return control to caller
     return;
 }
