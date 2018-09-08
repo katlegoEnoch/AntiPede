@@ -66,12 +66,6 @@ void Ant::moveAnt(int deltaX, int deltaY)
     //gun follows ant's movement
     gun_->moveGun(0,deltaY);
 }
-//initializes the gun
-void Ant::loadWeapon()
-{
-    //call the gun constructor to place gun on top of ant
-    //Gun gun(antX_+(antSize_/2),antY_);
-}
 
 //Ant has a gun which has a bullet
 Bullet Ant::releaseBullet()
@@ -82,7 +76,6 @@ Bullet Ant::releaseBullet()
     auto bullet = Bullet(gunX,gunY);
     //assign bullet to private member
     setBullet(bullet);
-    cout << "Bullet created at: " << gunX << " " << gunY << endl;
     
     return bullet;
 }
@@ -97,5 +90,7 @@ void Ant::fireBullet()
 {
     //at the moment a Bullet is created it should start moving upward
     bullet_.moveBullet(5,Direction::NORTH);
+    auto[x,y] = bullet_.getBulletCoords();
+    cout << x << " - " << y << endl;
 }
 

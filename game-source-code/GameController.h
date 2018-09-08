@@ -12,6 +12,9 @@ using std::make_unique;
 using std::shared_ptr;
 using std::make_shared;
 
+#include <vector>
+using std::vector;
+
 #include "Field.h"
 #include "Ant.h"
 #include "Segment.h"
@@ -22,6 +25,8 @@ using std::make_shared;
 #include "ScreenSplasher.h"
 #include "EventsHandler.h"
 #include "Resource.h"
+//Controller can maintain a vector of bullet
+#include "Bullet.h"
 //controller needs direc access to bullet
 //how about accessing the bullet throught the ant? That's the way
 //#include "Bullet.h"
@@ -37,6 +42,8 @@ public:
     void displaySplashScreen();
     //play the game
     void playGame();
+    //maintain set of bullets in memory
+    void addBulletToAnt();
     
 private:
     //private helper functions
@@ -53,6 +60,8 @@ private:
     shared_ptr<EventsHandler> event_;
     //additional variables
     bool gameIsRunning_; //keeps record of game status
+    //to fix firing problem
+    vector<Bullet> bullets_;
 };
 
 #endif

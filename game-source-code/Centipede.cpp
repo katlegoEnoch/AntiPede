@@ -44,7 +44,6 @@ void Centipede::moveCentipede(const int& speed)
                 segments_.at(i).move(speed,segments_.at(i).getDirection());
             }
     }
-    
 }
 
 

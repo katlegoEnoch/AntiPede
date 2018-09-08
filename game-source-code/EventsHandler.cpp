@@ -35,7 +35,8 @@ KeyCode EventsHandler::processEvent()
     
     if(extern_event_->type == windowClosed()){
         //close window
-        code = KeyCode::CLOSE_WINDOW;
+        //code = KeyCode::CLOSE_WINDOW;
+        code = KeyCode::END_GAME;
     }
     
     else if(extern_event_->type == keyPressed()){
