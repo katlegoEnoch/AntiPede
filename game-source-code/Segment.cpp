@@ -21,6 +21,9 @@ Segment::Segment(const int& segX, const int& segY, const double& segSize, const 
     {
         throw SegmentRadiusBeyondFieldBounds{};
     }
+    
+    //segment starts out alive
+    segmentAlive_ = true;
 }
 
 void Segment::moveSegment(const int& deltaX,const int& deltaY)
@@ -30,7 +33,7 @@ void Segment::moveSegment(const int& deltaX,const int& deltaY)
     
     if(segmentX_ == left_edge)
     {
-        if(!(segmentX_ < left_edge)){
+        if(!(segmentX_ <= left_edge)){
             segmentX_ = segmentX_;
             segmentY_ += 10;
         }
@@ -43,7 +46,7 @@ void Segment::moveSegment(const int& deltaX,const int& deltaY)
     //for right movements
     if(deltaX>0){
         if(segmentX_ == right_edge){
-            if(!(segmentX_ > right_edge)){
+            if(!(segmentX_ >= right_edge)){
                 segmentX_ = segmentX_;
                 segmentY_ += 10;
             }
@@ -60,7 +63,7 @@ void Segment::moveSegment(const int& deltaX,const int& deltaY)
     else {//for left movements
         if(segmentX_ == 10){
             segmentX_ = segmentX_;
-            segmentY_ += 2;
+            //segmentY_ += 2;
         }//end if
         else{
             segmentX_ += deltaX;
@@ -104,4 +107,10 @@ void Segment::move(const int& steps, const Direction& dir)
         else
             segmentX_ = left_edge;
     }
+}
+
+void Segment::setSegmentState(bool state)
+{
+    segmentAlive_ = state;
+    cout << "Segment struck" << endl;
 }

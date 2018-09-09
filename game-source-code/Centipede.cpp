@@ -46,5 +46,10 @@ void Centipede::moveCentipede(const int& speed)
     }
 }
 
+void Centipede::destroySegmentAt(const int& position)
+{
+//    segments_.erase()
+}
+
 
 

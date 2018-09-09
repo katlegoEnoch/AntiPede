@@ -5,6 +5,7 @@
 
 //Can we get rid of the link between the bullet and the gun and focus on the link between the ant and the bullet
 #include "Ant.h"
+#include "Bullet.h"
 
 #include <iostream>
 using namespace std;

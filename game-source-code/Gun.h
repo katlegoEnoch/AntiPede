@@ -10,6 +10,8 @@
 #include <tuple>
 #include "Bullet.h"
 
+class GunWithCoordinatesBeyondFieldCannotCreated {};
+
 
 class Gun{
 public:
@@ -19,7 +21,7 @@ public:
     int getGunSize() const;
     tuple<int,int> getGunCoords() const;
     //gun's movement follows that of the ant
-    void followAnt();
+    //void followAnt();
     void moveGun(const int&, const int&);
     
 private:

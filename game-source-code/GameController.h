@@ -27,7 +27,7 @@ using std::vector;
 #include "Resource.h"
 //Controller can maintain a vector of bullet
 #include "Bullet.h"
-//controller needs direc access to bullet
+//controller needs direct access to bullet
 //how about accessing the bullet throught the ant? That's the way
 //#include "Bullet.h"
 
@@ -46,6 +46,7 @@ public:
     void addBulletToController(const Bullet&);
     //ant can pass a message onto its bullet to move
     void fireBullet();
+    void checkCollisions();
     
 private:
     //private helper functions

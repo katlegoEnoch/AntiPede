@@ -10,6 +10,9 @@
 #include "../game-source-code/Ant.h"
 #include "../game-source-code/Segment.h"
 
+//Nonto Tests
+
+
 #include <iostream>
 using namespace std;
 
@@ -175,13 +178,12 @@ TEST_CASE("Segment can be moved by one unit to left if not positioned on left ed
     //y should be the same
     CHECK(segYA == segYB);
 
-    
 }
 
 TEST_CASE("Segment cannot move beyond right edge")
 {
     //position a segment on the top row right edge
-    auto segment = Segment{fieldWidth-10,30, 10.f,Direction::EAST};
+    auto segment = Segment{fieldWidth-30,30, 10.f,Direction::EAST};
     //get segment coordinates before movement operation
     auto[segXB,segYB] = segment.getSegmentCoords();
     //attempt to move segment by one unit beyond right edge
@@ -211,7 +213,7 @@ TEST_CASE("Segment cannot move beyond left edge")
 TEST_CASE("Segment moves down by one row when moving from right edge")
 {
     //position a segment on the top row right edge
-    auto segment = Segment{fieldWidth-10,30, 10.f,Direction::EAST};
+    auto segment = Segment{fieldWidth-30,30, 10.f,Direction::EAST};
     //get segment coordinates before movement operation
     auto[segXB,segYB] = segment.getSegmentCoords();
     //attempt to move segment by one unit beyond right edge
@@ -221,10 +223,10 @@ TEST_CASE("Segment moves down by one row when moving from right edge")
     //x coordinate should not have changed
     CHECK(segXA == segXB);
     //segment should move down by one row
-    CHECK(segYA == segYB+1);
+    CHECK(segYA == segYB+10);//one row has 10 pixels
 }
 
-TEST_CASE("Segment moves down by one row when moving from edge")
+TEST_CASE("Segment moves down by one row when moving from left edge")
 {
     //position a segment on the top row left edge
     auto segment = Segment{10,30, 10.f,Direction::EAST};
@@ -237,9 +239,8 @@ TEST_CASE("Segment moves down by one row when moving from edge")
     //x coordinate should not have changed
     CHECK(segXA == segXB);
     //segment should move down by one row
-    CHECK(segYA == segYB+1);
+    CHECK(segYA == segYB+10);
     
-    system("pause");
+    //system("pause");
 }
-
 

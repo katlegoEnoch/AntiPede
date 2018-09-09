@@ -9,6 +9,8 @@ Bullet::Bullet(const int& bulletX, const int& bulletY) : bulletX_{bulletX}, bull
 {
     //a bullet object is created at point where shot is fired
     //we need to know Gun's coordinates
+    //bullet starts out not active
+    targetHit_ = false;
 }
 
 
@@ -31,5 +33,11 @@ void Bullet::moveBullet(const int& speed,const Direction& dir)
             //do nothing for now
             break;
     }//end switch
+}
+
+void Bullet::setBulletState(bool state)
+{
+    targetHit_ = state;
+    cout << "Bullet hit target" << endl;
 }
 

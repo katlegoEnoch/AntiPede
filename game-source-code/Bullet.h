@@ -20,10 +20,13 @@ public:
     tuple<int,int> getBulletCoords() const {return {bulletX_,bulletY_};};
     //fire bullet at specific speed in specific direction
     void moveBullet(const int&,const Direction&);
-    
+    //collision detection members
+    void setBulletState(bool);
+    bool getBulletState() const {return targetHit_;}
 private:
     int bulletX_;
     int bulletY_;
+    bool  targetHit_;
 };
 
 #endif

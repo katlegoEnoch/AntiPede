@@ -38,12 +38,21 @@ void Renderer::drawAntOnField(const shared_ptr<Ant> ant)
 
 void Renderer::drawSegmentOnField(const Segment& seg)
 {
+    //cout << "drawing segment" << endl; 
+    //only draw live segments
+    
     sf::CircleShape segment(seg.segmentSize());
     segment.setFillColor(sf::Color::Red);
     auto[segmentX,segmentY] = seg.getSegmentCoords();
     segment.setPosition(segmentX,segmentY);
     
-    window_->getWindow()->draw(segment);
+    if(seg.segmentIsAlive()){
+        //cout << "segment alive" << endl;
+        window_->getWindow()->draw(segment);
+    }
+    else
+       // cout << "segment destroyed" << endl;
+    
     
     //return control to caller
     return;
@@ -79,8 +88,11 @@ void Renderer::drawBullets(const vector<Bullet> bullets)
        bulletShape.setFillColor(TURQUOISE);
        auto[bulX,bulY] = bullets.at(bullet).getBulletCoords();
        bulletShape.setPosition(bulX,bulY);
-    
-       window_->getWindow()->draw(bulletShape);
+        
+       if(!bullets.at(bullet).getBulletState()){
+           window_->getWindow()->draw(bulletShape);
+       } 
+       
  
     }
         

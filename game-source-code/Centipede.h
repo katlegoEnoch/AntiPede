@@ -17,6 +17,7 @@ using std::vector;
 /*The centipede can be responsible for controlling its segments'movement. The segments move themselves
  but the centipede controls the movement.*/
  
+class CentipedeHasInvalidSegments {};
  
 class Centipede{
     
@@ -30,9 +31,12 @@ public:
     void addSegmentToCentipede(const shared_ptr<Segment> );
     size_t  numberOfSegments() const {return numberOfSegments_;}
     //returns i-th segment of Centipede
-    Segment getSegmentAt(const int& position) const { return segments_.at(position);}
-    
-
+    Segment& getSegmentAt(const int& position) { return segments_.at(position);}
+    //
+    void destroySegmentAt(const int&);
+    //
+    vector<Segment>::iterator getBegin()  {return segments_.begin();}
+    vector<Segment>::iterator getEnd()  {return segments_.end();}
 private:
 //a centipede has a number of segments that it maintains in its memory
     vector<Segment> segments_;

@@ -28,7 +28,6 @@ public:
     static shared_ptr<sf::Text>    getKeysText();  
     static shared_ptr<sf::Text>    getVersionText();  
     
-
 private:
     //resources encapsulated within Resource object
     static shared_ptr<sf::Texture> texture_;

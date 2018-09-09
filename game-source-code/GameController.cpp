@@ -30,7 +30,7 @@ GameController::GameController() : gameIsRunning_(false)
     //
     
     //construct Centipede with 10 segments
-    auto numberOfSegments = 10;
+    auto numberOfSegments = 15;
     centipede_ = make_shared<Centipede>(numberOfSegments);
     //Centipede always starts at top left of field
     auto seg_x = 11;
@@ -93,6 +93,8 @@ void GameController::playGame()
         if(!bullets_.empty()){
             fireBullet();
         }
+        
+        checkCollisions();
 
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
@@ -157,7 +159,6 @@ void GameController::updateGameObjects()
             ant_->moveAnt(10,0);
             break;
         case KeyCode::FIRE_BULLET:
-            //do nothing for now
             //create bullet object
             ant_->setBullet(ant_->releaseBullet());
             //add bullet to Controller's memory
@@ -177,10 +178,6 @@ void GameController::updateGameObjects()
 void GameController::addBulletToController(const Bullet& bullet)
 {
     bullets_.push_back(bullet);
-    
-    //let's fire from here, it must fire that same bullet that it created
-    //ant_->fireBullet();
-    
 }
 
 //how about implementing the fire bullet function on the controller and not the ant?
@@ -192,7 +189,59 @@ void GameController::fireBullet()
         //move the corresponding bullet
         bullets_.at(loc).moveBullet(5,Direction::NORTH);
     }
-
 }
 //yes it worked! So the ant and the controller pretty much share the responsibility of the bullet's behaviour
 //the bullet is an inanimate object and does not control itself, the ant controls the bullet.
+
+
+void GameController::checkCollisions()
+{
+    /*auto segCount = 0;
+    auto bulletCount = 0;
+    auto seg_iter = centipede_->getBegin();
+    auto bul_iter = bullets_.begin();
+    while(seg_iter != centipede_->getEnd()){
+        segCount++;
+        while(bul_iter != bullets_.end()){
+            //increment counter
+            bulletCount++;
+            auto[bulX,bulY] = bul_iter->getBulletCoords();
+            auto[segX,segY] = seg_iter->getSegmentCoords();
+            //make decision based on computed positions
+            if(bulX == segX && bulY == segY){
+                //change state affected objects
+                 centipede_->getSegmentAt(segCount).setSegmentState(false);
+                 bullets_.at(bulletCount).setBulletState(true);
+            }//end if
+            else{
+                //do nothing
+            }//end else
+            //move onto next element
+            bul_iter++;
+        }//end bullets loop
+        //move onto next element
+        seg_iter++;
+    }//end centipede loop*/
+    
+    //collision detection
+    //for all the segments that make up the centipede
+    for(size_t cent = 0; cent < centipede_->numberOfSegments();cent++){
+        //compare this current segment against all bullets
+        for(size_t loc = 0; loc < bullets_.size();loc++){
+            //compute coordinates for both objects
+            //cout << centipede_->getSegmentAt(loc).segmentIsAlive() << endl;
+            auto[bulX,bulY] = bullets_.at(loc).getBulletCoords();
+            auto[segX,segY] = centipede_->getSegmentAt(cent).getSegmentCoords();
+            //make decision based on result
+            //if(((bulX >= segX) || (bulX <= (segX+10))) && ((bulY >= segY) || (bulY <= (segY-10)))){
+            if(bulX == segX && bulY == segY){
+                //change state affected objects
+                 centipede_->getSegmentAt(cent).setSegmentState(false);
+                 bullets_.at(loc).setBulletState(true);
+            }//end if
+            else{
+                //do nothing
+            }//end else
+        }//end bullet loop
+    }//end segment loop
+}

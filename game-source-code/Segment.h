@@ -8,6 +8,7 @@
 
 /*A centipede is made up of segments*/
 #include <tuple>
+#include <iostream>
 using namespace std;
 
 #include "constants.h"
@@ -35,16 +36,20 @@ public:
     //ensure that segment never moves beyond edges
     bool onRightEdge() const;
     bool onLeftEdge() const;
-    
+    //collision sensing
+    void setSegmentState(bool);
+    bool segmentIsAlive() const {return segmentAlive_;}
 private:
 
     //has a coordinate on the field
     int segmentX_;
     int segmentY_;
     //has a size i.e radius
-    int segmentSize_;
+    double segmentSize_;
     //has a direction of travel
     Direction segmentDir_;
+    //segment has a state - dead or alive
+    bool segmentAlive_;
 };
 
 #endif
