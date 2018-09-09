@@ -26,16 +26,19 @@ class RegionBeyondFieldBoundary {};
 class Region{
     
 public:
-    //a region object is created with a maximum value and a mininum value
-    Region(const int&, const int&);
+    //a region object is created with a maximum value,a mininum value and a center
+    Region(const int&, const int&, const int&);
     //handlers
     int getRegionMax() const {return region_max_;}
     int getRegionMin() const {return region_min_;}
+    int getCenter() const {return centerX_;}
     
 private:
     //a region has...
     int region_min_; //minimum value - to the left of the center
     int region_max_;//maximum value - to the right of the center
+    //a region also has a centre which is very important
+    int centerX_;
 };
 
 /*Each game object will need to maintain a record of its region. We will have a Bullet object having Region data member and providing its clients access to via a pointer. Each object will need to keep

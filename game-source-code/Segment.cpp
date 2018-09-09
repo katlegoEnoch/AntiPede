@@ -132,6 +132,6 @@ shared_ptr<Region> Segment::computeSegmentRegion()
         maxValue = fieldWidth;
     }
     //construct a region object based on value and pass to caller
-    segmentRegion_ = make_shared<Region>(minValue,maxValue);
+    segmentRegion_ = make_shared<Region>(minValue,maxValue,segmentX_);
     return segmentRegion_;
 }

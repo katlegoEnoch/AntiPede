@@ -7,7 +7,7 @@
 
 
 
-Region::Region(const int& minValue, const int& maxValue) : region_min_{minValue}, region_max_{maxValue}
+Region::Region(const int& minValue, const int& maxValue, const int& center) : region_min_{minValue}, region_max_{maxValue}, centerX_{center}
 {
     //data validation
     if(region_min_ < 0 || region_max_ > fieldWidth){

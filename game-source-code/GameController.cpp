@@ -94,21 +94,36 @@ void GameController::playGame()
             fireBullet();
         }
         
-        //here we will compute ranges for both bullet and segment
-        /*for(size_t i = 0; i < bullets_.size();i++){
-            //compute range of current bullet
-            auto bul_reg = bullets_.at(i).computeBulletRegion();
-        }
-        //compute segment regions
-         for(size_t i = 0; i < centipede_.size();i++){
-            //compute range of current bullet
-            auto seg_reg = centipede_.at(i).computeSegmentRegion();
-        }*/
+        //for all the segments in the centipede
+        for(size_t centLoc = 0; centLoc < centipede_->numberOfSegments();centLoc++){
+            //inner loop - for all the bullets
+            for(size_t bulloc = 0; bulloc < bullets_.size();bulloc++){
+                //calculate size of region surrounding bullet
+                auto bul_reg = bullets_.at(bulloc).computeBulletRegion();
+                //calculate region of region surrounding segment
+                auto seg_reg = centipede_->getSegmentAt(centLoc).computeSegmentRegion();
+                //compute a mactch between the two regions, if there's a match
+                if(!bullets_.empty()){
+                    //compare the heights
+                    if(computeMatch(seg_reg,bul_reg)){
+                        //if the heights also match
+                        if(bullets_.at(bulloc).getBulletHeight() == centipede_->getSegmentAt(centLoc).getSegmentHeight()){
+                            //change the current segment's state to false
+                            centipede_->getSegmentAt(centLoc).setSegmentState(false);
+                            //change current bullet's state to false as well;
+                            bullets_.at(bulloc).setBulletState(true);
+                        }//end if
+                        
+                    }//end if
+                }//end if
+            }//end inner loop
+        }//end outer for loop
+        
 
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
-            centipede_->moveCentipede(5);
+            centipede_->moveCentipede(0);
         }
         while(appWindow_->queryEvent(*(event_->getEvent()))){
             //update objects based on inputs
@@ -173,7 +188,7 @@ void GameController::updateGameObjects()
             //add bullet to Controller's memory
             addBulletToController(ant_->releaseBullet());
             break;
-        case KeyCode::IGNORE:
+        case KeyCode::IGNORE_INPUT:
             //
             gameIsRunning_ = false;
         default:
@@ -203,55 +218,41 @@ void GameController::fireBullet()
 //the bullet is an inanimate object and does not control itself, the ant controls the bullet.
 
 
-void GameController::checkCollisions()
+bool GameController::computeMatch(shared_ptr<Region> segment,shared_ptr<Region> bullet)
 {
-    /*auto segCount = 0;
-    auto bulletCount = 0;
-    auto seg_iter = centipede_->getBegin();
-    auto bul_iter = bullets_.begin();
-    while(seg_iter != centipede_->getEnd()){
-        segCount++;
-        while(bul_iter != bullets_.end()){
-            //increment counter
-            bulletCount++;
-            auto[bulX,bulY] = bul_iter->getBulletCoords();
-            auto[segX,segY] = seg_iter->getSegmentCoords();
-            //make decision based on computed positions
-            if(bulX == segX && bulY == segY){
-                //change state affected objects
-                 centipede_->getSegmentAt(segCount).setSegmentState(false);
-                 bullets_.at(bulletCount).setBulletState(true);
-            }//end if
-            else{
-                //do nothing
-            }//end else
-            //move onto next element
-            bul_iter++;
-        }//end bullets loop
-        //move onto next element
-        seg_iter++;
-    }//end centipede loop*/
+    //extrac values from pointers passed in
+    auto segRegionMax = segment->getRegionMax();
+    auto segRegionMin = segment->getRegionMin();
+    auto segCenter = segment->getCenter();
+    auto bullRegionMax = bullet->getRegionMax();
+    auto bullRegionMin = bullet->getRegionMin();
+    auto bulCenter = bullet->getCenter();
     
-    //collision detection
-    //for all the segments that make up the centipede
-    for(size_t cent = 0; cent < centipede_->numberOfSegments();cent++){
-        //compare this current segment against all bullets
-        for(size_t loc = 0; loc < bullets_.size();loc++){
-            //compute coordinates for both objects
-            //cout << centipede_->getSegmentAt(loc).segmentIsAlive() << endl;
-            auto[bulX,bulY] = bullets_.at(loc).getBulletCoords();
-            auto[segX,segY] = centipede_->getSegmentAt(cent).getSegmentCoords();
-            //cout << segX << "-" << segY << " " << bulX << "-" << bulY << endl;
-            //make decision based on result
-            //if(((bulX >= segX) || (bulX <= (segX+10))) && ((bulY >= segY) || (bulY <= (segY-10)))){
-            if(((bulX == segX) || (bulX == (segX))) && (bulY == segY)){
-                //change state affected objects
-                 centipede_->getSegmentAt(cent).setSegmentState(false);
-                 bullets_.at(loc).setBulletState(true);
-            }//end if
-            else{
-                //do nothing
-            }//end else
-        }//end bullet loop
-    }//end segment loop
+    //radius for segment and center can be computed
+    auto segRad = segRegionMax - segRegionMin;
+    auto bulRad = bullRegionMax - bullRegionMin;    
+    //compute degree of match
+    //for bullet on left of segment
+    
+    if(bulCenter < segCenter){
+        if((bulCenter+bulRad) < (segCenter-segRad)){
+            return false;
+        }//end if
+        else
+            return true;
+    }// end if
+    else if(bulCenter > segCenter){
+        //for bullet to right of segment
+        if((segCenter+bulRad) < (bulCenter-bulRad)){
+            return false;
+        }
+        else
+            return true;
+    }// end else if
+    //bullet on left or right of segment
+    else if(((bulCenter+bulRad) >= (segCenter-segRad)) || ((bulCenter - bulRad) <= (segCenter+segRad)))
+        return true;
+    else
+        return false;
+    
 }

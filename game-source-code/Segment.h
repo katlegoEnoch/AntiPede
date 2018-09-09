@@ -42,6 +42,8 @@ public:
     bool segmentIsAlive() const {return segmentAlive_;}
     //other game objects can query a segment what region it covers
     shared_ptr<Region> computeSegmentRegion();
+    //
+    int getSegmentHeight() const {return segmentY_;}
 
 private:
 

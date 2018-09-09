@@ -31,6 +31,7 @@ public:
     bool getBulletState() const {return targetHit_;}
     //a bullet object will have an ability to calculate what its region is and share this information with other object
     shared_ptr<Region> computeBulletRegion();// calculated based on bullet's current x-position
+    int getBulletHeight() const {return bulletY_;}
    
 private:
     int  bulletX_;

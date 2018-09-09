@@ -31,6 +31,8 @@ using std::vector;
 //how about accessing the bullet throught the ant? That's the way
 //#include "Bullet.h"
 
+enum class Sensitivity{LOW,MEDIUM,HIGH};
+
 class GameController{
     
 public:
@@ -46,10 +48,11 @@ public:
     void addBulletToController(const Bullet&);
     //ant can pass a message onto its bullet to move
     void fireBullet();
-    void checkCollisions();
+    bool computeMatch(shared_ptr<Region> segment,shared_ptr<Region> bullet);
     
 private:
     //private helper functions
+   
     void drawGameObjects();
     void updateGameObjects();
     //maintains all the game objects in its memory

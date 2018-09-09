@@ -60,7 +60,7 @@ shared_ptr<Region> Bullet::computeBulletRegion()
         maxValue = fieldWidth;
     }
     //construct Region object based on computed values and return to caller
-    bullet_region_ = make_shared<Region>(minValue,maxValue);
+    bullet_region_ = make_shared<Region>(minValue,maxValue,bulletX_);
    return bullet_region_;
 }
 

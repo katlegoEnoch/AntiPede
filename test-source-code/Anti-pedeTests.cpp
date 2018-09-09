@@ -11,6 +11,7 @@
 #include "../game-source-code/Segment.h"
 #include "../game-source-code/Region.h"
 #include "../game-source-code/Bullet.h"
+#include "../game-source-code/GameController.h"
 //Nonto Tests
 
 
@@ -244,3 +245,5 @@ TEST_CASE("Segment moves down by one row when moving from left edge")
     
     //system("pause");
 }
+
+

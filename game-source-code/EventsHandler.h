@@ -20,7 +20,7 @@ enum class KeyCode
     MOVE_ANT_LEFT,
     MOVE_ANT_RIGHT,
     FIRE_BULLET,
-    IGNORE
+    IGNORE_INPUT
 };
 
 class EventsHandler{

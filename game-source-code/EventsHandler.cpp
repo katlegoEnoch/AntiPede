@@ -61,7 +61,7 @@ KeyCode EventsHandler::processEvent()
                 code = KeyCode::FIRE_BULLET;
                 break;
             default:
-                code = KeyCode::IGNORE;
+                code = KeyCode::IGNORE_INPUT;
                 break;
         }//end switch
     }
