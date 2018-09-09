@@ -12,6 +12,7 @@
 using namespace std;
 
 #include "constants.h"
+#include "Region.h"
 
 //empty classes representing an exceptions
 class SegmentHasInvalidFieldCoordinates {};
@@ -39,6 +40,9 @@ public:
     //collision sensing
     void setSegmentState(bool);
     bool segmentIsAlive() const {return segmentAlive_;}
+    //other game objects can query a segment what region it covers
+    shared_ptr<Region> computeSegmentRegion();
+
 private:
 
     //has a coordinate on the field
@@ -50,6 +54,8 @@ private:
     Direction segmentDir_;
     //segment has a state - dead or alive
     bool segmentAlive_;
+    //segment now has knowledge of the region of space it covers
+    shared_ptr<Region> segmentRegion_;
 };
 
 #endif

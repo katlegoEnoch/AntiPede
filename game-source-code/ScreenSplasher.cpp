@@ -41,7 +41,7 @@ void ScreenSplasher::printMainText()
     resource_->getMainText()->setCharacterSize(charSize);
     resource_->getMainText()->setPosition(message_x,message_y);
     resource_->getMainText()->setFillColor(sf::Color::Green);
-    resource_->getMainText()->setString("\tWelcome to AntIpede!\nPress Space-Bar to start game");
+    resource_->getMainText()->setString("\tWelcome to AntIpede!\nPress Enter to start game");
     window_->getWindow()->draw(*(resource_->getMainText()));
 }
 
@@ -57,7 +57,7 @@ void ScreenSplasher::printKeysText()
         resource_->getKeysText()->setCharacterSize(keysCharSize);
         resource_->getKeysText()->setPosition(keys_x,keys_y);
         resource_->getKeysText()->setFillColor(sf::Color::Green);
-        resource_->getKeysText()->setString("\tKEYS: left-arrow | move left\tright-arrow | move right\ttop-arrow | fire bullet");
+        resource_->getKeysText()->setString("\tKEYS: left-arrow | move left\tright-arrow | move right\tSpace-Bar | fire bullet");
         window_->getWindow()->draw(*(resource_->getKeysText()));
     }
 }
@@ -75,15 +75,15 @@ void ScreenSplasher::printVersionText()
         resource_->getVersionText()->setCharacterSize(versionCharSize);
         resource_->getVersionText()->setPosition(version_x,version_y);
         resource_->getVersionText()->setFillColor(sf::Color::White);
-        resource_->getVersionText()->setString("\tAntIpede v1.0");
+        resource_->getVersionText()->setString("\tAntIpede v1.1");
         window_->getWindow()->draw(*(resource_->getVersionText()));
     }
 }
 
 void ScreenSplasher::displayImage() 
 {
-    auto image_x = static_cast<double>((fieldWidth/4) + 60);
-    auto image_y = static_cast<double>(fieldHeight/10);
+    auto image_x = static_cast<double>((fieldWidth/4) + 70);
+    auto image_y = static_cast<double>((fieldHeight/10) +70);
     
     //load and display
      if(!resource_->getTexture()->loadFromFile("splashGround.jpg")){}

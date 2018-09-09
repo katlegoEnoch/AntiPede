@@ -9,7 +9,8 @@
 #include "../game-source-code/Field.h"
 #include "../game-source-code/Ant.h"
 #include "../game-source-code/Segment.h"
-
+#include "../game-source-code/Region.h"
+#include "../game-source-code/Bullet.h"
 //Nonto Tests
 
 
@@ -54,15 +55,15 @@ TEST_CASE("Ant with size beyond field dimensions cannot be created")
     CHECK_THROWS_AS(Ant(fieldWidth,fieldHeight,invalid_ant_size),AntSizeBeyondFieldBounds);
 }
 
-TEST_CASE("Reasonably sized ant can be constructed successfully")
+TEST_CASE("Reasonably positoned ant can be constructed successfully")
 {
-    auto valid_ant_size = 10.f;
+    auto valid_ant_size = 20.f;
     auto test_ant = Ant{fieldWidth,fieldHeight,valid_ant_size};
     auto[ant_x,ant_y] = test_ant.getAntCoords();
     //compare against known values and make assertions
-    CHECK(ant_x == 800);
-    CHECK(ant_y == 600);
-    CHECK(test_ant.getAntSize() == 10.f);
+    CHECK(ant_x == 1000);
+    CHECK(ant_y == 800);
+    CHECK(test_ant.getAntSize() == 20.f);
 }
 
 /////Ant movement tests//////////////////////////////////////
@@ -142,7 +143,7 @@ TEST_CASE("Segment with invalid y field coordinate cannot be constructed")
 
 TEST_CASE("Segment with large radius cannot be constructed")
 {
-    auto invalid_segment_radius = 100.f;
+    auto invalid_segment_radius = 1000.f;
     CHECK_THROWS_AS(Segment(fieldWidth,fieldHeight,invalid_segment_radius,Direction::EAST),SegmentRadiusBeyondFieldBounds);
 }
 
@@ -183,7 +184,7 @@ TEST_CASE("Segment can be moved by one unit to left if not positioned on left ed
 TEST_CASE("Segment cannot move beyond right edge")
 {
     //position a segment on the top row right edge
-    auto segment = Segment{fieldWidth-30,30, 10.f,Direction::EAST};
+    auto segment = Segment{fieldWidth-30,3, 10.f,Direction::EAST};
     //get segment coordinates before movement operation
     auto[segXB,segYB] = segment.getSegmentCoords();
     //attempt to move segment by one unit beyond right edge
@@ -223,13 +224,13 @@ TEST_CASE("Segment moves down by one row when moving from right edge")
     //x coordinate should not have changed
     CHECK(segXA == segXB);
     //segment should move down by one row
-    CHECK(segYA == segYB+10);//one row has 10 pixels
+    CHECK(segYA == segYB+15);//one row has 15 pixels
 }
 
 TEST_CASE("Segment moves down by one row when moving from left edge")
 {
     //position a segment on the top row left edge
-    auto segment = Segment{10,30, 10.f,Direction::EAST};
+    auto segment = Segment{10,30,10,Direction::EAST};
     //get segment coordinates before movement operation
     auto[segXB,segYB] = segment.getSegmentCoords();
     //attempt to move segment by one unit beyond left edge
@@ -239,8 +240,7 @@ TEST_CASE("Segment moves down by one row when moving from left edge")
     //x coordinate should not have changed
     CHECK(segXA == segXB);
     //segment should move down by one row
-    CHECK(segYA == segYB+10);
+    CHECK(segYA == segYB+15);
     
     //system("pause");
 }
-

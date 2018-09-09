@@ -16,8 +16,8 @@ Segment::Segment(const int& segX, const int& segY, const double& segSize, const 
         throw SegmentHasInvalidFieldCoordinates{};
     }
     
-    //a realistic segment is at most 10% the area of the field
-    if(segmentSize_ > 0.1*fieldHeight || segmentSize_ > 0.1*fieldWidth)
+    //a realistic segment is at most 50% the area of the field
+    if(segmentSize_ > 0.5*fieldHeight || segmentSize_ > 0.5*fieldWidth)
     {
         throw SegmentRadiusBeyondFieldBounds{};
     }
@@ -35,11 +35,11 @@ void Segment::moveSegment(const int& deltaX,const int& deltaY)
     {
         if(!(segmentX_ <= left_edge)){
             segmentX_ = segmentX_;
-            segmentY_ += 10;
+            segmentY_ += 15;
         }
         else{
             segmentX_ = left_edge;
-            segmentY_ += 10;
+            segmentY_ += 15;
         }
     }
     
@@ -48,11 +48,11 @@ void Segment::moveSegment(const int& deltaX,const int& deltaY)
         if(segmentX_ == right_edge){
             if(!(segmentX_ >= right_edge)){
                 segmentX_ = segmentX_;
-                segmentY_ += 10;
+                segmentY_ += 15;
             }
             else{
                 segmentX_ = right_edge;
-                segmentY_ += 10;
+                segmentY_ += 15;
             }
         }//end if
         else{
@@ -113,4 +113,25 @@ void Segment::setSegmentState(bool state)
 {
     segmentAlive_ = state;
     cout << "Segment struck" << endl;
+}
+
+
+//each segment now has knowledge of the region of space it covers on the field and is able to share this info with clients
+shared_ptr<Region> Segment::computeSegmentRegion()
+{
+    //compute max and min values based on segment's current position
+    auto minValue = segmentX_ - segmentSize_;
+    auto maxValue = segmentX_ + segmentSize_;
+      //check that computed values are within bounds
+    if(minValue < 0){
+        //replace with zero
+        minValue = 0;
+    }
+    if(maxValue > fieldWidth){
+        //set to maximum
+        maxValue = fieldWidth;
+    }
+    //construct a region object based on value and pass to caller
+    segmentRegion_ = make_shared<Region>(minValue,maxValue);
+    return segmentRegion_;
 }

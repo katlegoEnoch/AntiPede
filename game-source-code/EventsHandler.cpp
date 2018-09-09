@@ -44,7 +44,7 @@ KeyCode EventsHandler::processEvent()
             case sf::Keyboard::Escape:
                 code = KeyCode::END_GAME;
                 break;
-            case sf::Keyboard::Space:
+            case sf::Keyboard::Enter:
                 //start game
                 code =  KeyCode::START_GAME;
                 break;
@@ -56,7 +56,7 @@ KeyCode EventsHandler::processEvent()
                 //move player right
                 code = KeyCode::MOVE_ANT_RIGHT;
                 break;
-            case sf::Keyboard::Up:
+            case sf::Keyboard::Space:
                 //fire bullet from gun
                 code = KeyCode::FIRE_BULLET;
                 break;

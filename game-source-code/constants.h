@@ -8,8 +8,8 @@
 
 #include <SFML/Graphics.hpp>
 
-#define fieldWidth  800                                                                                                            
-#define fieldHeight 600
+#define fieldWidth  1000                                                                                                            
+#define fieldHeight 800
 
 #define M_GREEN sf::Color(75,83,32)
 #define RED sf::Color(255, 0, 0) 
@@ -26,5 +26,7 @@
 enum class Colour{M_GREEN_,RED_,BLUE_,GREEN_,YELLOW_,TURQUOISE_,VIOLET_,BLACK_,WHITE_,SILVER_,GREY_};
 
 enum class Direction{NORTH, EAST, SOUTH, WEST};
+
+//we need to come to this one page to change the various constants - ant size, ant speed, bullet size, bullet speed, centipede size and speed...
 
 #endif

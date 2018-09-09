@@ -22,7 +22,7 @@ GameController::GameController() : gameIsRunning_(false)
     
     //initialize Ant, when Ant constructor is called, gun is automatically created
     //Ant has handle to its gun
-    auto ant_size = 30;
+    auto ant_size = 20;
     auto ant_x = static_cast<int>((fieldWidth/2)-20);
     auto ant_y = fieldHeight - (ant_size+10);
     ant_ = make_shared<Ant>(ant_x,ant_y,ant_size);
@@ -30,11 +30,11 @@ GameController::GameController() : gameIsRunning_(false)
     //
     
     //construct Centipede with 10 segments
-    auto numberOfSegments = 10;
+    auto numberOfSegments = 15;
     centipede_ = make_shared<Centipede>(numberOfSegments);
     //Centipede always starts at top left of field
-    auto seg_x = 11;
-    auto seg_y = 10;
+    auto seg_x = 11;//11
+    auto seg_y = 10;//fieldHeight -(ant_size+60);//10;
     //add segments to Centipede
     for(size_t cent_elmnt = 0; cent_elmnt < centipede_->numberOfSegments();cent_elmnt++){
         if(cent_elmnt != 0){
@@ -94,7 +94,16 @@ void GameController::playGame()
             fireBullet();
         }
         
-        checkCollisions();
+        //here we will compute ranges for both bullet and segment
+        /*for(size_t i = 0; i < bullets_.size();i++){
+            //compute range of current bullet
+            auto bul_reg = bullets_.at(i).computeBulletRegion();
+        }
+        //compute segment regions
+         for(size_t i = 0; i < centipede_.size();i++){
+            //compute range of current bullet
+            auto seg_reg = centipede_.at(i).computeSegmentRegion();
+        }*/
 
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
@@ -152,11 +161,11 @@ void GameController::updateGameObjects()
             break;
         case KeyCode::MOVE_ANT_LEFT:
             //move ant left
-            ant_->moveAnt(-5,0);
+            ant_->moveAnt(-10,0);
             break;
             case KeyCode::MOVE_ANT_RIGHT:
             //move ant right
-            ant_->moveAnt(5,0);
+            ant_->moveAnt(10,0);
             break;
         case KeyCode::FIRE_BULLET:
             //create bullet object
@@ -187,7 +196,7 @@ void GameController::fireBullet()
     //at the moment a Bullet is created it should start moving upward
     for(size_t loc = 0; loc < bullets_.size();loc++){
         //move the corresponding bullet
-        bullets_.at(loc).moveBullet(5,Direction::NORTH);
+        bullets_.at(loc).moveBullet(8,Direction::NORTH);
     }
 }
 //yes it worked! So the ant and the controller pretty much share the responsibility of the bullet's behaviour

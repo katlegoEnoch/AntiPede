@@ -31,7 +31,7 @@ Ant::Ant(const int& antX, const int& antY, const double& ant_size) : antX_{antX}
         
     //initialize the state of Ant's gun
     //call the gun constructor to place gun on top of ant
-    gun_ = make_shared<Gun>(antX_+((antSize_-8)/2),antY_-10);
+    gun_ = make_shared<Gun>(antX_+((antSize_-9)/2),antY_-10);
 }
 
 //when the ant moves its gun must follow..
@@ -75,6 +75,7 @@ Bullet Ant::releaseBullet()
     auto[gunX,gunY] = gun_->getGunCoords();
     //construct a bullet object at gun's current location
     auto bullet = Bullet(gunX,gunY);
+    cout << gunX << " " << gunY << endl;
     //assign bullet to private member
     setBullet(bullet);
     
