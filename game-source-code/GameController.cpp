@@ -30,7 +30,7 @@ GameController::GameController() : gameIsRunning_(false)
     //
     
     //construct Centipede with 10 segments
-    auto numberOfSegments = 15;
+    auto numberOfSegments = 10;
     centipede_ = make_shared<Centipede>(numberOfSegments);
     //Centipede always starts at top left of field
     auto seg_x = 11;
@@ -152,11 +152,11 @@ void GameController::updateGameObjects()
             break;
         case KeyCode::MOVE_ANT_LEFT:
             //move ant left
-            ant_->moveAnt(-10,0);
+            ant_->moveAnt(-5,0);
             break;
             case KeyCode::MOVE_ANT_RIGHT:
             //move ant right
-            ant_->moveAnt(10,0);
+            ant_->moveAnt(5,0);
             break;
         case KeyCode::FIRE_BULLET:
             //create bullet object
@@ -232,9 +232,10 @@ void GameController::checkCollisions()
             //cout << centipede_->getSegmentAt(loc).segmentIsAlive() << endl;
             auto[bulX,bulY] = bullets_.at(loc).getBulletCoords();
             auto[segX,segY] = centipede_->getSegmentAt(cent).getSegmentCoords();
+            //cout << segX << "-" << segY << " " << bulX << "-" << bulY << endl;
             //make decision based on result
             //if(((bulX >= segX) || (bulX <= (segX+10))) && ((bulY >= segY) || (bulY <= (segY-10)))){
-            if(bulX == segX && bulY == segY){
+            if(((bulX == segX) || (bulX == (segX))) && (bulY == segY)){
                 //change state affected objects
                  centipede_->getSegmentAt(cent).setSegmentState(false);
                  bullets_.at(loc).setBulletState(true);

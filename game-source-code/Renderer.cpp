@@ -84,7 +84,7 @@ void Renderer::drawBullets(const vector<Bullet> bullets)
 {
     for(size_t bullet = 0; bullet < bullets.size(); bullet++)
     {
-       sf::CircleShape bulletShape(3);
+       sf::CircleShape bulletShape(5);
        bulletShape.setFillColor(TURQUOISE);
        auto[bulX,bulY] = bullets.at(bullet).getBulletCoords();
        bulletShape.setPosition(bulX,bulY);
