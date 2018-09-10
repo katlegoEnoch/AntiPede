@@ -12,7 +12,7 @@ Bullet::Bullet(const int& bulletX, const int& bulletY) : bulletX_{bulletX}, bull
     //bullet starts out not active
     targetHit_ = false;
   
-    bulletSize_ = 3.f;
+    bulletSize_ = 1.5;
     
 }
 
@@ -49,7 +49,7 @@ shared_ptr<Region> Bullet::computeBulletRegion()
 {
     //compute maximum and minimum values based on bullet's current position
     auto minValue = bulletX_ - bulletSize_;
-    auto maxValue = bulletX_ + bulletSize_;
+    auto maxValue = bulletX_ + (bulletSize_-3);
     //check that computed values are within bounds
     if(minValue < 0){
         //replace with zero

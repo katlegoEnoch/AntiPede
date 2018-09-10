@@ -30,7 +30,7 @@ GameController::GameController() : gameIsRunning_(false)
     //
     
     //construct Centipede with 10 segments
-    auto numberOfSegments = 15;
+    auto numberOfSegments = 30;
     centipede_ = make_shared<Centipede>(numberOfSegments);
     //Centipede always starts at top left of field
     auto seg_x = 11;//11
@@ -123,7 +123,7 @@ void GameController::playGame()
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
-            centipede_->moveCentipede(0);
+            centipede_->moveCentipede(5);
         }
         while(appWindow_->queryEvent(*(event_->getEvent()))){
             //update objects based on inputs
@@ -211,7 +211,7 @@ void GameController::fireBullet()
     //at the moment a Bullet is created it should start moving upward
     for(size_t loc = 0; loc < bullets_.size();loc++){
         //move the corresponding bullet
-        bullets_.at(loc).moveBullet(8,Direction::NORTH);
+        bullets_.at(loc).moveBullet(5,Direction::NORTH);
     }
 }
 //yes it worked! So the ant and the controller pretty much share the responsibility of the bullet's behaviour
