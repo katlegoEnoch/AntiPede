@@ -46,9 +46,9 @@ void Centipede::moveCentipede(const int& speed)
     }
 }
 
-void Centipede::destroySegmentAt(const int& position)
+void Centipede::destroySegmentAt(vector<Segment>::iterator iter)
 {
-//    segments_.erase()
+    segments_.erase(iter);
 }
 
 

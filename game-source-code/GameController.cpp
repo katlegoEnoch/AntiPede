@@ -96,8 +96,12 @@ void GameController::playGame()
         
         //for all the segments in the centipede
         for(size_t centLoc = 0; centLoc < centipede_->numberOfSegments();centLoc++){
+            //assign iterator to container for deletion
+            vector<Segment>::iterator segIt = centipede_->getBegin();
             //inner loop - for all the bullets
             for(size_t bulloc = 0; bulloc < bullets_.size();bulloc++){
+                //assign iterator to vector
+                vector<Bullet>::iterator bul_it = begin(bullets_);
                 //calculate size of region surrounding bullet
                 auto bul_reg = bullets_.at(bulloc).computeBulletRegion();
                 //calculate region of region surrounding segment
@@ -110,13 +114,21 @@ void GameController::playGame()
                         if(bullets_.at(bulloc).getBulletHeight() == centipede_->getSegmentAt(centLoc).getSegmentHeight()){
                             //change the current segment's state to false
                             centipede_->getSegmentAt(centLoc).setSegmentState(false);
+                            //delete segment from screen
+                            //centipede_->destroySegmentAt(segIt);
                             //change current bullet's state to false as well;
                             bullets_.at(bulloc).setBulletState(true);
+                            //we should also delete bullet from gun's memory
+                            bullets_.erase(bul_it);
                         }//end if
-                        
+                        //compoute coordinates
                     }//end if
                 }//end if
+                //increment iterator
+                bul_it++;
             }//end inner loop
+            //increment iterator
+            segIt++;
         }//end outer for loop
         
 

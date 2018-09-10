@@ -33,7 +33,7 @@ public:
     //returns i-th segment of Centipede
     Segment& getSegmentAt(const int& position) { return segments_.at(position);}
     //
-    void destroySegmentAt(const int&);
+    void destroySegmentAt(vector<Segment>::iterator);
     //
     vector<Segment>::iterator getBegin()  {return segments_.begin();}
     vector<Segment>::iterator getEnd()  {return segments_.end();}
