@@ -15,43 +15,18 @@ using namespace std;
 //function of constructor is to initialize the state of its data members
 GameController::GameController() : gameIsRunning_(false)
 {
-    //ensure that ant starts at centre of bottom row
-    
     //initialize field
     field_ = make_shared<Field>(fieldWidth,fieldHeight);
     
     //initialize Ant, when Ant constructor is called, gun is automatically created
-    //Ant has handle to its gun
-    auto ant_size = 20;
-    auto ant_x = static_cast<int>((fieldWidth/2)-20);
-    auto ant_y = fieldHeight - (ant_size+10);
-    ant_ = make_shared<Ant>(ant_x,ant_y,ant_size);
+    ant_ = initializeAnt();
     
-    //
-    
-    //construct Centipede with 10 segments
-    auto numberOfSegments = 30;
-    centipede_ = make_shared<Centipede>(numberOfSegments);
-    //Centipede always starts at top left of field
-    auto seg_x = 11;//11
-    auto seg_y = 10;//fieldHeight -(ant_size+60);//10;
-    //add segments to Centipede
-    for(size_t cent_elmnt = 0; cent_elmnt < centipede_->numberOfSegments();cent_elmnt++){
-        if(cent_elmnt != 0){
-            //create segment
-            auto segment = make_shared<Segment>(seg_x+((cent_elmnt)*20),seg_y,10.f,Direction::EAST);
-            //add segment to Centipeded
-            centipede_->addSegmentToCentipede(segment);
-        }//end if
-        else{
-            auto segment = make_shared<Segment>(seg_x,seg_y,10.f,Direction::EAST);
-            //add segment to Centipeded
-            centipede_->addSegmentToCentipede(segment);
-        }//end else
-    }//end loop
+    //initialize centipede with certain number of Segments
+    centipede_ = initializeCentipede();
     
     //create a window
     appWindow_ = make_shared<Window>(300,300);
+    
     //create resource
     resource_ = make_shared<Resource>();
     
@@ -61,7 +36,48 @@ GameController::GameController() : gameIsRunning_(false)
     //create event handler
     event_ = make_shared<EventsHandler>();
     
+    detector_ = make_shared<CollisionDetector>();
+    
 }
+
+shared_ptr<Ant> GameController::initializeAnt() const
+{
+    //Ant has handle to its gun
+    auto ant_size = 20;
+    auto ant_x = static_cast<int>((fieldWidth/2)-20);
+    auto ant_y = fieldHeight - (ant_size+10);
+    auto ant = make_shared<Ant>(ant_x,ant_y,ant_size);
+    
+    return ant;
+}
+
+shared_ptr<Centipede> GameController::initializeCentipede() const
+{
+    //construct Centipede with 10 segments
+    auto numberOfSegments = 20;
+    
+    auto centipede = make_shared<Centipede>(numberOfSegments);
+    //Centipede always starts at top left of field
+    auto seg_x = 11;//11
+    auto seg_y = 10;//starting point
+    //add segments to Centipede
+    for(size_t cent_elmnt = 0; cent_elmnt < centipede->numberOfSegments();cent_elmnt++){
+        if(cent_elmnt != 0){
+            //create segment
+            auto segment = make_shared<Segment>(seg_x+((cent_elmnt)*20),seg_y,10.f,Direction::EAST);
+            //add segment to Centipeded
+            centipede->addSegmentToCentipede(segment);
+        }//end if
+        else{
+            auto segment = make_shared<Segment>(seg_x,seg_y,10.f,Direction::EAST);
+            //add segment to Centipeded
+            centipede->addSegmentToCentipede(segment);
+        }//end else
+    }//end loop
+    
+    return centipede;
+}
+
 
 void GameController::openApplicationWindow()
 {
@@ -94,44 +110,9 @@ void GameController::playGame()
             fireBullet();
         }
         
-        //for all the segments in the centipede
-        for(size_t centLoc = 0; centLoc < centipede_->numberOfSegments();centLoc++){
-            //assign iterator to container for deletion
-            vector<Segment>::iterator segIt = centipede_->getBegin();
-            //inner loop - for all the bullets
-            for(size_t bulloc = 0; bulloc < bullets_.size();bulloc++){
-                //assign iterator to vector
-                vector<Bullet>::iterator bul_it = begin(bullets_);
-                //calculate size of region surrounding bullet
-                auto bul_reg = bullets_.at(bulloc).computeBulletRegion();
-                //calculate region of region surrounding segment
-                auto seg_reg = centipede_->getSegmentAt(centLoc).computeSegmentRegion();
-                //compute a mactch between the two regions, if there's a match
-                if(!bullets_.empty()){
-                    //compare the heights
-                    if(computeMatch(seg_reg,bul_reg)){
-                        //if the heights also match
-                        if(bullets_.at(bulloc).getBulletHeight() == centipede_->getSegmentAt(centLoc).getSegmentHeight()){
-                            //change the current segment's state to false
-                            centipede_->getSegmentAt(centLoc).setSegmentState(false);
-                            //delete segment from screen
-                            //centipede_->destroySegmentAt(segIt);
-                            //change current bullet's state to false as well;
-                            bullets_.at(bulloc).setBulletState(true);
-                            //we should also delete bullet from gun's memory
-                            bullets_.erase(bul_it);
-                        }//end if
-                        //compoute coordinates
-                    }//end if
-                }//end if
-                //increment iterator
-                bul_it++;
-            }//end inner loop
-            //increment iterator
-            segIt++;
-        }//end outer for loop
+       //call sensing function here
+       detector_->detectCollision(centipede_,bullets_);
         
-
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
@@ -230,41 +211,3 @@ void GameController::fireBullet()
 //the bullet is an inanimate object and does not control itself, the ant controls the bullet.
 
 
-bool GameController::computeMatch(shared_ptr<Region> segment,shared_ptr<Region> bullet)
-{
-    //extrac values from pointers passed in
-    auto segRegionMax = segment->getRegionMax();
-    auto segRegionMin = segment->getRegionMin();
-    auto segCenter = segment->getCenter();
-    auto bullRegionMax = bullet->getRegionMax();
-    auto bullRegionMin = bullet->getRegionMin();
-    auto bulCenter = bullet->getCenter();
-    
-    //radius for segment and center can be computed
-    auto segRad = segRegionMax - segRegionMin;
-    auto bulRad = bullRegionMax - bullRegionMin;    
-    //compute degree of match
-    //for bullet on left of segment
-    
-    if(bulCenter < segCenter){
-        if((bulCenter+bulRad) < (segCenter-segRad)){
-            return false;
-        }//end if
-        else
-            return true;
-    }// end if
-    else if(bulCenter > segCenter){
-        //for bullet to right of segment
-        if((segCenter+bulRad) < (bulCenter-bulRad)){
-            return false;
-        }
-        else
-            return true;
-    }// end else if
-    //bullet on left or right of segment
-    else if(((bulCenter+bulRad) >= (segCenter-segRad)) || ((bulCenter - bulRad) <= (segCenter+segRad)))
-        return true;
-    else
-        return false;
-    
-}

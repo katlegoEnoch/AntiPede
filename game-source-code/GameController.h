@@ -18,6 +18,8 @@ using std::vector;
 #include "Field.h"
 #include "Ant.h"
 #include "Segment.h"
+#include "Tail.h"
+#include "Head.h"
 #include "constants.h"
 #include "Centipede.h"
 #include "Renderer.h"
@@ -27,6 +29,7 @@ using std::vector;
 #include "Resource.h"
 //Controller can maintain a vector of bullet
 #include "Bullet.h"
+#include "CollisionDetector.h"
 //controller needs direct access to bullet
 //how about accessing the bullet throught the ant? That's the way
 //#include "Bullet.h"
@@ -48,11 +51,12 @@ public:
     void addBulletToController(const Bullet&);
     //ant can pass a message onto its bullet to move
     void fireBullet();
-    bool computeMatch(shared_ptr<Region> segment,shared_ptr<Region> bullet);
     
 private:
+    //private initialization functions
+    shared_ptr<Ant> initializeAnt() const;
+    shared_ptr<Centipede> initializeCentipede() const;
     //private helper functions
-   
     void drawGameObjects();
     void updateGameObjects();
     //maintains all the game objects in its memory
@@ -68,6 +72,7 @@ private:
     bool gameIsRunning_; //keeps record of game status
     //to fix firing problem
     vector<Bullet> bullets_;
+    shared_ptr<CollisionDetector> detector_;
 };
 
 #endif

@@ -44,7 +44,8 @@ public:
     shared_ptr<Region> computeSegmentRegion();
     //
     int getSegmentHeight() const {return segmentY_;}
-
+    //pure virtual function to be overridden by head and tail
+    
 private:
 
     //has a coordinate on the field
