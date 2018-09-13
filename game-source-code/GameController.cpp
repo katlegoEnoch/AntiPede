@@ -13,7 +13,7 @@ using namespace std;
 
 
 //function of constructor is to initialize the state of its data members
-GameController::GameController() : gameIsRunning_(false)
+GameController::GameController() : gameIsRunning_(false),collisionCount_(0)
 {
     //initialize field
     field_ = make_shared<Field>(fieldWidth,fieldHeight);
@@ -101,7 +101,7 @@ void GameController::displaySplashScreen()
 }
 
 void GameController::playGame()
-{
+{    
     //while the window is open
     while(appWindow_->windowIsOpen())
     {
@@ -110,25 +110,29 @@ void GameController::playGame()
             fireBullet();
         }
         
-       //call sensing function here
-       centipedes_ = detector_->detectCollision(centipede_,bullets_);
+       //only sense for collisions when the count is zero
+       if(collisionCount_ == 0)
+            centipedes_ = detector_->detectCollision(centipede_,bullets_);
+            
+        //if a collision was sensed, centipedes vector will not be empty
        if(!centipedes_.empty()){
            //change state of centipede
            centipede_->setCentState(false);
-           //free memory
-           centipede_ = NULL;//it's the only so it should free memory
-       }
-        
+           collisionCount_++;;
+           //free memory, only if not free
+        }
+
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
-            if(centipede_!= NULL)
-                centipede_->moveCentipede(5);
+            centipede_->moveCentipede(5);
             //now we have to move centipedes
-            for(size_t cent = 0; cent < centipedes_.size();cent++){
-                (centipedes_.at(cent))->moveCentipede(5);
-            }
-        }
+            if(!centipedes_.empty()){
+                for(size_t cent = 0; cent < centipedes_.size();cent++){
+                    (centipedes_.at(cent))->moveCentipede(5);
+                }//end for
+            }//end if
+        }//end outer if
         while(appWindow_->queryEvent(*(event_->getEvent()))){
             //update objects based on inputs
             updateGameObjects();

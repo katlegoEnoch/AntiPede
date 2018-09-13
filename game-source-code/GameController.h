@@ -73,6 +73,8 @@ private:
     shared_ptr<CollisionDetector> detector_;
     //now game controller has centipedes
     vector<shared_ptr<Centipede>> centipedes_;
+    //static variable
+    int collisionCount_;
 };
 
 #endif

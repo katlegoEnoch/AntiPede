@@ -71,15 +71,17 @@ void Renderer::drawSegmentOnField(const Segment& seg,const Colour& col)
 void Renderer::drawCentipede(const shared_ptr<Centipede> centi)
 {
     //initialize program variables
-    size_t loc = 0;
-    //command all segments to draw themselves
-    for(; loc < centi->numberOfSegments()-1;loc++){
-        //command centipede's render to draw current segment
-        //Segment* seg_ptr = &centi->getSegmentAt(loc);
-        drawSegmentOnField(centi->getSegmentAt(loc),Colour::RED_);
+    if(centi->isAlive()){
+        size_t loc = 0;
+        //command all segments to draw themselves
+        for(; loc < centi->numberOfSegments()-1;loc++){
+            //command centipede's render to draw current segment
+            //Segment* seg_ptr = &centi->getSegmentAt(loc);
+            drawSegmentOnField(centi->getSegmentAt(loc),Colour::RED_);
+        }
+        //for last element - head, draw a different colour
+        drawSegmentOnField(centi->getSegmentAt(loc),Colour::YELLOW_);   
     }
-    //for last element - head, draw a different colour
-    drawSegmentOnField(centi->getSegmentAt(loc),Colour::YELLOW_);
 }
 
 void Renderer::drawCentipedes(const vector<shared_ptr<Centipede>> centis)
@@ -88,7 +90,6 @@ void Renderer::drawCentipedes(const vector<shared_ptr<Centipede>> centis)
     for(size_t cent = 0; cent < centis.size();cent++){
         //command renderer to draw the current centipede
         drawCentipede(centis.at(cent)); 
-        cout << "Rendering" << cent <<endl;
     }
 }
 
