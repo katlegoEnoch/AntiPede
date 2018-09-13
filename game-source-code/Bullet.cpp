@@ -41,7 +41,6 @@ void Bullet::moveBullet(const int& speed,const Direction& dir)
 void Bullet::setBulletState(bool state)
 {
     targetHit_ = state;
-    cout << "Bullet hit target" << endl;
 }
 
 //bullet's region is computed based on bullet's current position

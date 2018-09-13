@@ -54,7 +54,7 @@ shared_ptr<Ant> GameController::initializeAnt() const
 shared_ptr<Centipede> GameController::initializeCentipede() const
 {
     //construct Centipede with 10 segments
-    auto numberOfSegments = 20;
+    auto numberOfSegments = 10;
     
     auto centipede = make_shared<Centipede>(numberOfSegments);
     //Centipede always starts at top left of field
@@ -95,9 +95,9 @@ void GameController::openApplicationWindow()
 void GameController::displaySplashScreen()
 {
     //create ScreenSplasher object and pass window
-    ScreenSplasher splasher(appWindow_,resource_);
+    auto splasher = make_shared<ScreenSplasher>(appWindow_,resource_);
     //command object to display splash screen
-    splasher.displaySplashScreen();
+    splasher->displaySplashScreen();
 }
 
 void GameController::playGame()
@@ -111,12 +111,23 @@ void GameController::playGame()
         }
         
        //call sensing function here
-       detector_->detectCollision(centipede_,bullets_);
+       centipedes_ = detector_->detectCollision(centipede_,bullets_);
+       if(!centipedes_.empty()){
+           //change state of centipede
+           centipede_->setCentState(false);
+           //free memory
+           centipede_ = NULL;//it's the only so it should free memory
+       }
         
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
             //move Centipede
-            centipede_->moveCentipede(5);
+            if(centipede_!= NULL)
+                centipede_->moveCentipede(5);
+            //now we have to move centipedes
+            for(size_t cent = 0; cent < centipedes_.size();cent++){
+                (centipedes_.at(cent))->moveCentipede(5);
+            }
         }
         while(appWindow_->queryEvent(*(event_->getEvent()))){
             //update objects based on inputs
@@ -140,8 +151,14 @@ void GameController::drawGameObjects()
     //draw Gun
     //Gun is accessed through Ant
     renderer_->drawGun(ant_->getGun());
-    //draw Centipede
-    renderer_->drawCentipede(centipede_);
+    //draw Centipede, conditionally
+    if(centipede_ != NULL)
+        renderer_->drawCentipede(centipede_);
+    
+    //now we're drawing centipedes
+    if(!centipedes_.empty()){
+        renderer_->drawCentipedes(centipedes_);
+    }//end if
     //draw Bullet, accessed through its owner ant
     renderer_->drawBullets(bullets_);
     appWindow_->showContents();

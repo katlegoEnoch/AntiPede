@@ -5,12 +5,18 @@
 
 #include "CollisionDetector.h"
 
-void CollisionDetector::detectCollision(shared_ptr<Centipede> centipede,vector<Bullet>& bullets)
+#include <iostream>
+using namespace std;
+
+vector<shared_ptr<Centipede>> CollisionDetector::detectCollision(shared_ptr<Centipede> centipede,vector<Bullet>& bullets)
 {
     //assign iterator to container for deletion
     vector<Segment>::iterator segIt = centipede->getBegin();
     //assign iterator to vector
     vector<Bullet>::iterator bul_it = begin(bullets);
+    //empty vector of centipedes
+    vector<shared_ptr<Centipede>> centis;
+
     
      //for all the segments in the centipede
      for(size_t centLoc = 0; centLoc < centipede->numberOfSegments();centLoc++){
@@ -28,8 +34,8 @@ void CollisionDetector::detectCollision(shared_ptr<Centipede> centipede,vector<B
                     if(bullets.at(bulloc).getBulletHeight() == centipede->getSegmentAt(centLoc).getSegmentHeight()){
                         //change the current segment's state to false
                         centipede->getSegmentAt(centLoc).setSegmentState(false);
-                        //delete segment from screen
-                        centipede->destroySegmentAt(segIt);
+                        //split the centipede
+                        centis = splitCentipede(centipede,segIt,centLoc);
                         // centipede_->getSegmentAt()
                         //change current bullet's state to false as well;
                         bullets.at(bulloc).setBulletState(true);
@@ -45,6 +51,8 @@ void CollisionDetector::detectCollision(shared_ptr<Centipede> centipede,vector<B
         //increment iterator
         segIt++;
     }//end outer for loop
+    
+    return centis;
 }
 
 
@@ -87,3 +95,38 @@ bool CollisionDetector::computeMatch(shared_ptr<Region> segment,shared_ptr<Regio
     
 }
 
+//splits Centipede and returns a set of pointers to smaller Centipede objects
+vector<shared_ptr<Centipede>> CollisionDetector::splitCentipede(shared_ptr<Centipede> centi,vector<Segment>::iterator split_loc, const int& count)
+{
+    cout << "Splitting centipede" << endl;
+    
+    //declare empty Centipede
+    vector<shared_ptr<Centipede>> centi_ptrs;
+    
+    //move elements to left of iterator into a new set of segments
+    auto centi_ptr1 = make_shared<Centipede>(count);
+    //pointer to segment created from segments after split-loc
+    auto centi_ptr2 = make_shared<Centipede>(centi->numberOfSegments() - count);
+    auto segIt = centi->getBegin();
+    auto par_count = 0;
+    //while we haven't reached end of vector
+    while(segIt != split_loc){
+        //add element of passed in centipede to new set
+        centi_ptr1->addSegmentToCentipede(centi->getSegment(par_count));
+        segIt++;
+        par_count++;
+    }
+    //add new centipede to set
+    centi_ptrs.push_back(centi_ptr1);
+    //now populate the second Centipede i.e. copy elements to right of Centipede to new centipede
+    while(segIt != centi->getEnd()){
+        centi_ptr2->addSegmentToCentipede(centi->getSegment(par_count));
+        segIt++;
+        par_count++;
+    }
+    //add new centipede to set
+    centi_ptrs.push_back(centi_ptr2);
+    
+    //return set of smaller centipedes to caller
+    return centi_ptrs;
+}

@@ -33,14 +33,19 @@ public:
     //returns i-th segment of Centipede
     Segment& getSegmentAt(const int& position) { return segments_.at(position);}
     //
-    void destroySegmentAt(vector<Segment>::iterator);
+    shared_ptr<Segment> getSegment(const int&);
     //
     vector<Segment>::iterator getBegin()  {return segments_.begin();}
     vector<Segment>::iterator getEnd()  {return segments_.end();}
+    //now Centipede has a state - dead of alive
+    bool isAlive() const {return centState_;};
+    void setCentState(const bool& state) {centState_ = state;}
 private:
 //a centipede has a number of segments that it maintains in its memory
     vector<Segment> segments_;
     int numberOfSegments_;
+    //now Centipede has state
+    bool centState_;
 
 };//end Centipede class definition
 

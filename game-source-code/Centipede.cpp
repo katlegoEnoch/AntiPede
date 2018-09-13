@@ -13,6 +13,9 @@ Centipede::Centipede(const int& segments) : numberOfSegments_{segments}
 void Centipede::addSegmentToCentipede(const shared_ptr<Segment> segment)
 {
     segments_.push_back(*segment);
+    
+    //centipede starts out alive
+    centState_ = true;
 }
 
 void Centipede::moveCentipede(const int& speed)
@@ -46,9 +49,12 @@ void Centipede::moveCentipede(const int& speed)
     }
 }
 
-void Centipede::destroySegmentAt(vector<Segment>::iterator segIt)
+shared_ptr<Segment> Centipede::getSegment(const int& pos)
 {
-    cout << "destroying segment" << endl;
+    auto seg_ptr = make_shared<Segment>(segments_.at(pos));
+    
+    //return pointer to segment at location
+    return (seg_ptr);
 }
 
 

@@ -112,7 +112,6 @@ void Segment::move(const int& steps, const Direction& dir)
 void Segment::setSegmentState(bool state)
 {
     segmentAlive_ = state;
-    cout << "Segment struck" << endl;
 }
 
 

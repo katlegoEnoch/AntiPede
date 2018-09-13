@@ -18,8 +18,6 @@ using std::vector;
 #include "Field.h"
 #include "Ant.h"
 #include "Segment.h"
-#include "Tail.h"
-#include "Head.h"
 #include "constants.h"
 #include "Centipede.h"
 #include "Renderer.h"
@@ -73,6 +71,8 @@ private:
     //to fix firing problem
     vector<Bullet> bullets_;
     shared_ptr<CollisionDetector> detector_;
+    //now game controller has centipedes
+    vector<shared_ptr<Centipede>> centipedes_;
 };
 
 #endif

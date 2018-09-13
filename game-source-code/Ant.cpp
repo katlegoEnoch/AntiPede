@@ -75,7 +75,6 @@ Bullet Ant::releaseBullet()
     auto[gunX,gunY] = gun_->getGunCoords();
     //construct a bullet object at gun's current location
     auto bullet = Bullet(gunX,gunY);
-    cout << gunX << " " << gunY << endl;
     //assign bullet to private member
     setBullet(bullet);
     

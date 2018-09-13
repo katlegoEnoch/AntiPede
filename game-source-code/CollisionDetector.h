@@ -19,9 +19,12 @@ using std::make_shared;
 
 class CollisionDetector{
 public:
-    void detectCollision(shared_ptr<Centipede>,vector<Bullet>&);
+    //now collision detector will also pass back a set of smaller centipedes to caller
+    vector<shared_ptr<Centipede>> detectCollision(shared_ptr<Centipede>,vector<Bullet>&);
 private:
     bool computeMatch(shared_ptr<Region>,shared_ptr<Region>);
+    //function splits Centipede into smaller ones upon detecting a collision
+    vector<shared_ptr<Centipede>> splitCentipede(shared_ptr<Centipede>,vector<Segment>::iterator,const int&);
 };
 
 
