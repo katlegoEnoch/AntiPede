@@ -49,20 +49,18 @@ void Renderer::drawSegmentOnField(const Segment& seg,const Colour& col)
         case Colour::YELLOW_:
             segment.setFillColor(YELLOW);
             break;
+        case Colour::GREEN_:
+            segment.setFillColor(GREEN);
         default:
-            segment.setFillColor(RED);
+            segment.setFillColor(GREEN);
             break;
     }//end switch
     auto[segmentX,segmentY] = seg.getSegmentCoords();
     segment.setPosition(segmentX,segmentY);
     
     if(seg.segmentIsAlive()){
-        //cout << "segment alive" << endl;
         window_->getWindow()->draw(segment);
     }
-    else
-       // cout << "segment destroyed" << endl;
-    
     
     //return control to caller
     return;
@@ -71,26 +69,28 @@ void Renderer::drawSegmentOnField(const Segment& seg,const Colour& col)
 void Renderer::drawCentipede(const shared_ptr<Centipede> centi)
 {
     //initialize program variables
-    if(centi->isAlive()){
-        size_t loc = 0;
         //command all segments to draw themselves
-        for(; loc < centi->numberOfSegments()-1;loc++){
+        for(size_t loc = 0; loc < centi->numberOfSegments();loc++){
             //command centipede's render to draw current segment
-            //Segment* seg_ptr = &centi->getSegmentAt(loc);
-            drawSegmentOnField(centi->getSegmentAt(loc),Colour::RED_);
-        }
-        //for last element - head, draw a different colour
-        drawSegmentOnField(centi->getSegmentAt(loc),Colour::YELLOW_);   
-    }
-}
-
-void Renderer::drawCentipedes(const vector<shared_ptr<Centipede>> centis)
-{
-    //for all the centipedes in set
-    for(size_t cent = 0; cent < centis.size();cent++){
-        //command renderer to draw the current centipede
-        drawCentipede(centis.at(cent)); 
-    }
+            switch(centi->getSegmentAt(loc).getSegmentCrown()){
+                case Crown::HEAD:
+                    //head has green colour
+                    drawSegmentOnField(centi->getSegmentAt(loc),Colour::GREEN_);
+                    break;
+                case Crown::TAIL:
+                    //tail is red
+                    drawSegmentOnField(centi->getSegmentAt(loc),Colour::YELLOW_);
+                    break;
+                case Crown::NEUTRAL:
+                    //main body is yellow
+                    drawSegmentOnField(centi->getSegmentAt(loc),Colour::RED_);
+                    break;
+                default:
+                    //red by default
+                    drawSegmentOnField(centi->getSegmentAt(loc),Colour::RED_);
+                    break;
+            }//end switch
+        }//end for
 }
 
 void Renderer::drawGun(const shared_ptr<Gun> gun)

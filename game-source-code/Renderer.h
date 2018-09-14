@@ -21,12 +21,10 @@ class Renderer{
 public:
     //create a Renderer object and attach a window to it
     Renderer(shared_ptr<Window>);//couldn't make Window constant
-
+    //draw the various game objects on the screen
     void drawField(const shared_ptr<Field>);
     void drawAntOnField(const shared_ptr<Ant>);
     void drawCentipede(const shared_ptr<Centipede>);
-    //now we're also drawing a bunch of smaller centipedes if they exist
-    void drawCentipedes(const vector<shared_ptr<Centipede>>);
     void drawGun(const shared_ptr<Gun>);
     void drawBullets(const vector<Bullet>);//had to change this to a constant reference, doesn't work well with pointers
     

@@ -44,7 +44,9 @@ public:
     shared_ptr<Region> computeSegmentRegion();
     //
     int getSegmentHeight() const {return segmentY_;}
-    //pure virtual function to be overridden by head and tail
+    //each segment has a crown that is bestowed upon it at creation
+    Crown getSegmentCrown() const {return seg_crown_;}
+    void crownSegment(const Crown);
     
 private:
 
@@ -59,6 +61,8 @@ private:
     bool segmentAlive_;
     //segment now has knowledge of the region of space it covers
     shared_ptr<Region> segmentRegion_;
+    //each segment has a crown
+    Crown  seg_crown_;
 };
 
 #endif

@@ -134,3 +134,8 @@ shared_ptr<Region> Segment::computeSegmentRegion()
     segmentRegion_ = make_shared<Region>(minValue,maxValue,segmentX_);
     return segmentRegion_;
 }
+
+void Segment::crownSegment(const Crown crown)
+{
+    seg_crown_ = crown;
+}

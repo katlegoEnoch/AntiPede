@@ -14,10 +14,15 @@ using std::shared_ptr;
 #include <vector>
 using std::vector;
 
+//A centipede is provided with collision sensing ability
+#include "CollisionDetector.h"
+
 /*The centipede can be responsible for controlling its segments'movement. The segments move themselves
  but the centipede controls the movement.*/
  
 class CentipedeHasInvalidSegments {};
+
+//The centipede is now responsible for crowning each of its segments
  
 class Centipede{
     
@@ -40,12 +45,18 @@ public:
     //now Centipede has a state - dead of alive
     bool isAlive() const {return centState_;};
     void setCentState(const bool& state) {centState_ = state;}
+    //A centipede can now be commanded to check for collisions with any number of bullets
+    void checkBulletCollisions(vector<Bullet>&);
+
+    
 private:
-//a centipede has a number of segments that it maintains in its memory
+    //a centipede has a number of segments that it maintains in its memory
     vector<Segment> segments_;
     int numberOfSegments_;
     //now Centipede has state
     bool centState_;
+    //we decided to provide each centipede collision sensing ability
+    shared_ptr<CollisionDetector> detector_;
 
 };//end Centipede class definition
 

@@ -57,5 +57,16 @@ shared_ptr<Segment> Centipede::getSegment(const int& pos)
     return (seg_ptr);
 }
 
+void Centipede::checkBulletCollisions(vector<Bullet>& bullets)
+{
+    //initialize collision sensor component of centipede
+    auto sensor = make_shared<CollisionDetector>();
+    //command sensor to check for collisions between centipede and bullets
+    auto col_sensed = sensor->detectCollision(segments_,bullets);
+    
+    //if smaller centipedes were created, they too must check for collisions with bullets
+    if(col_sensed){
+        cout << "collision sensed" << endl;
+    }
 
-
+}

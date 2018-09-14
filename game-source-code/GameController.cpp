@@ -13,7 +13,7 @@ using namespace std;
 
 
 //function of constructor is to initialize the state of its data members
-GameController::GameController() : gameIsRunning_(false),collisionCount_(0)
+GameController::GameController() : gameIsRunning_(false)
 {
     //initialize field
     field_ = make_shared<Field>(fieldWidth,fieldHeight);
@@ -23,6 +23,8 @@ GameController::GameController() : gameIsRunning_(false),collisionCount_(0)
     
     //initialize centipede with certain number of Segments
     centipede_ = initializeCentipede();
+    
+    crownSegments();
     
     //create a window
     appWindow_ = make_shared<Window>(300,300);
@@ -35,9 +37,6 @@ GameController::GameController() : gameIsRunning_(false),collisionCount_(0)
     
     //create event handler
     event_ = make_shared<EventsHandler>();
-    
-    detector_ = make_shared<CollisionDetector>();
-    
 }
 
 shared_ptr<Ant> GameController::initializeAnt() const
@@ -51,10 +50,11 @@ shared_ptr<Ant> GameController::initializeAnt() const
     return ant;
 }
 
-shared_ptr<Centipede> GameController::initializeCentipede() const
+//Also responsible for 'crowning' the segments
+shared_ptr<Centipede> GameController::initializeCentipede()
 {
     //construct Centipede with 10 segments
-    auto numberOfSegments = 10;
+    auto numberOfSegments = 20;
     
     auto centipede = make_shared<Centipede>(numberOfSegments);
     //Centipede always starts at top left of field
@@ -101,7 +101,7 @@ void GameController::displaySplashScreen()
 }
 
 void GameController::playGame()
-{    
+{
     //while the window is open
     while(appWindow_->windowIsOpen())
     {
@@ -110,28 +110,13 @@ void GameController::playGame()
             fireBullet();
         }
         
-       //only sense for collisions when the count is zero
-       if(collisionCount_ == 0)
-            centipedes_ = detector_->detectCollision(centipede_,bullets_);
-            
-        //if a collision was sensed, centipedes vector will not be empty
-       if(!centipedes_.empty()){
-           //change state of centipede
-           centipede_->setCentState(false);
-           collisionCount_++;;
-           //free memory, only if not free
-        }
-
+        //sense for bullet-segment collisions
+        centipede_->checkBulletCollisions(bullets_);
+        
         //move segment by pixel to right each time we loop, that's too fast, the screen is too small.
         if(gameIsRunning_){
-            //move Centipede
-            centipede_->moveCentipede(5);
             //now we have to move centipedes
-            if(!centipedes_.empty()){
-                for(size_t cent = 0; cent < centipedes_.size();cent++){
-                    (centipedes_.at(cent))->moveCentipede(5);
-                }//end for
-            }//end if
+            centipede_->moveCentipede(5);
         }//end outer if
         while(appWindow_->queryEvent(*(event_->getEvent()))){
             //update objects based on inputs
@@ -156,15 +141,10 @@ void GameController::drawGameObjects()
     //Gun is accessed through Ant
     renderer_->drawGun(ant_->getGun());
     //draw Centipede, conditionally
-    if(centipede_ != NULL)
-        renderer_->drawCentipede(centipede_);
-    
-    //now we're drawing centipedes
-    if(!centipedes_.empty()){
-        renderer_->drawCentipedes(centipedes_);
-    }//end if
+    renderer_->drawCentipede(centipede_);
     //draw Bullet, accessed through its owner ant
     renderer_->drawBullets(bullets_);
+    //display all drawings
     appWindow_->showContents();
 }
 
@@ -231,4 +211,15 @@ void GameController::fireBullet()
 //yes it worked! So the ant and the controller pretty much share the responsibility of the bullet's behaviour
 //the bullet is an inanimate object and does not control itself, the ant controls the bullet.
 
-
+void GameController::crownSegments(){
+    //crown segments of centipede
+    //the first element is a tail
+    centipede_->getSegmentAt(0).crownSegment(Crown::TAIL);
+    //all the midsection segments are neutral
+    for(size_t seg = 1; seg < centipede_->numberOfSegments()-1;seg++){
+        centipede_->getSegmentAt(seg).crownSegment(Crown::NEUTRAL);
+    }
+    //last element of centipede is a head*/
+    centipede_->getSegmentAt(centipede_->numberOfSegments()-1).crownSegment(Crown::HEAD);
+    //cout << static_cast<int>(centipede_->getSegmentAt(centipede_->numberOfSegments()-1).getSegmentCrown()) << endl; 
+}

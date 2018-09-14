@@ -27,12 +27,8 @@ using std::vector;
 #include "Resource.h"
 //Controller can maintain a vector of bullet
 #include "Bullet.h"
-#include "CollisionDetector.h"
 //controller needs direct access to bullet
 //how about accessing the bullet throught the ant? That's the way
-//#include "Bullet.h"
-
-enum class Sensitivity{LOW,MEDIUM,HIGH};
 
 class GameController{
     
@@ -49,11 +45,13 @@ public:
     void addBulletToController(const Bullet&);
     //ant can pass a message onto its bullet to move
     void fireBullet();
+     //the controller is now responsible for crowning of its centipede's segment upon creation
+    void crownSegments();
     
 private:
     //private initialization functions
     shared_ptr<Ant> initializeAnt() const;
-    shared_ptr<Centipede> initializeCentipede() const;
+    shared_ptr<Centipede> initializeCentipede();
     //private helper functions
     void drawGameObjects();
     void updateGameObjects();
@@ -70,11 +68,6 @@ private:
     bool gameIsRunning_; //keeps record of game status
     //to fix firing problem
     vector<Bullet> bullets_;
-    shared_ptr<CollisionDetector> detector_;
-    //now game controller has centipedes
-    vector<shared_ptr<Centipede>> centipedes_;
-    //static variable
-    int collisionCount_;
 };
 
 #endif

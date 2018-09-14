@@ -27,6 +27,9 @@ enum class Colour{M_GREEN_,RED_,BLUE_,GREEN_,YELLOW_,TURQUOISE_,VIOLET_,BLACK_,W
 
 enum class Direction{NORTH, EAST, SOUTH, WEST};
 
+/*The concept of the Crown was introduced to simplify the Centipede splitting process. Instead of literally splitting it we just process it*/
+enum class Crown{NEUTRAL,HEAD,TAIL};
+
 //we need to come to this one page to change the various constants - ant size, ant speed, bullet size, bullet speed, centipede size and speed...
 
 #endif

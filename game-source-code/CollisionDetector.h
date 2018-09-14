@@ -12,21 +12,26 @@
 #include <memory>
 using std::shared_ptr;
 using std::make_shared;
+
+#include <tuple>
+using std::tuple;
    
 #include "Region.h"
-#include "Centipede.h"
+#include "Segment.h"
 #include "Bullet.h"
+
+
 
 class CollisionDetector{
 public:
     //now collision detector will also pass back a set of smaller centipedes to caller
-    vector<shared_ptr<Centipede>> detectCollision(shared_ptr<Centipede>,vector<Bullet>&);
+    bool detectCollision(vector<Segment>&,vector<Bullet>&);
 private:
     bool computeMatch(shared_ptr<Region>,shared_ptr<Region>);
     //function splits Centipede into smaller ones upon detecting a collision
-    vector<shared_ptr<Centipede>> splitCentipede(shared_ptr<Centipede>,vector<Segment>::iterator,const int&);
-};
+    void splitCentipede(vector<Segment>&,const size_t&);
 
+};
 
 #endif
 
